@@ -25,19 +25,17 @@ public class InitiativeTracker extends Application {
         launch(args);
         
         //This stuff is just here for testing
-        FightManager fightManager = new FightManager();
-        Combatant testGuy1 = new Combatant.Builder("Guy 1").hp(50).build();
-        Combatant testGuy2 = new Combatant.Builder("Guy 2").hp(50).build();
-        Combatant testGuy3 = new Combatant.Builder("Guy 3").hp(50).build();
-        
-        fightManager.printCombatants();
-        fightManager.addPlayers(testGuy1, testGuy2);
-        fightManager.conditionManager.player(testGuy2).getsCondition("Incapacitated")
-                .player(testGuy1).getsCondition("Feared").getsCondition("Unconcious");
-        fightManager.printCombatants();
-        fightManager.conditionManager.player(testGuy1).recoversCondition("Unconcious")
-                .recoversCondition("Poisioned");
-        fightManager.printCombatants();
+        FighterManager fighterManager = new FighterManager();
+        Combatant testGuy1 = new Combatant.Builder("Guy 1").hp(50).init(12).build();
+        Combatant testGuy2 = new Combatant.Builder("Guy 2").hp(50).init(12).build();
+        Combatant testGuy3 = new Combatant.Builder("Guy 3").hp(50).init(11).build();
+              
+        fighterManager.addPlayers(testGuy1, testGuy2, testGuy3);
+        fighterManager.sortPlayers();
+        fighterManager.hpManager.player(testGuy1).getsHitFor(25);
+        fighterManager.hpManager.player(testGuy2).healsFor(25).getsHitFor(12);
+        fighterManager.conditionManager.player(testGuy3).getsCondition("sick").getsCondition("dead");
+        fighterManager.printPlayers();
     }
     
 }

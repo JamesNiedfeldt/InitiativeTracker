@@ -55,18 +55,24 @@ public class CombatantTest {
     }
 
     @Test
-    public void testPrint() {
-        //TODO: this
-        String testString = "Name: Test\n"
-                + "HP: 50\n"
-                + "Dexterity: 10\n"
-                + "Initiative: 15";
-        testCombatant = new Combatant.Builder("Test")
-                .hp(50)
-                .dex(10)
-                .init(15)
-                .build();
-        //assertEquals(testString, testCombatant.print());
+    public void testCompareTo() {
+        Combatant newTest = new Combatant.Builder("compare to").init(15).dex(15).build();
+        testCombatant.setInitiative(15);
+        testCombatant.setDexterity(15);
+        assertEquals(0, testCombatant.compareTo(newTest));
+        
+        newTest.setDexterity(16);
+        assertEquals(1, testCombatant.compareTo(newTest));
+        
+        newTest.setDexterity(14);
+        assertEquals(-1, testCombatant.compareTo(newTest));
+        
+        newTest.setDexterity(15);
+        newTest.setInitiative(14);
+        assertEquals(-1, testCombatant.compareTo(newTest));
+        
+        newTest.setInitiative(16);
+        assertEquals(1, testCombatant.compareTo(newTest));
     }
     
 }
