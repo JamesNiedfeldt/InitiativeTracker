@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/James/Documents/InitiativeTracker/InitiativeTracker/src/initiativetracker/Combatant.java</file>
+            <file>file:/C:/Users/James/Documents/InitiativeTracker/InitiativeTracker/src/initiativetracker/InitiativeTracker.java</file>
+            <file>file:/C:/Users/James/Documents/InitiativeTracker/InitiativeTracker/src/initiativetracker/FighterManager.java</file>
+            <file>file:/C:/Users/James/Documents/InitiativeTracker/InitiativeTracker/test/initiativetracker/CombatantTest.java</file>
+            <file>file:/C:/Users/James/Documents/InitiativeTracker/InitiativeTracker/src/initiativetracker/MainScreenController.java</file>
+        </group>
     </open-files>
 </project-private>
