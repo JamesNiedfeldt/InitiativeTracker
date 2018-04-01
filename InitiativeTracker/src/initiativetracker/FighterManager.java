@@ -1,16 +1,16 @@
 package initiativetracker;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FighterManager {
-    private static ArrayList<Combatant> players;
+    public static ObservableList<Combatant> players;
     public static HPManager hpManager;
     public static ConditionManager conditionManager;
     
     FighterManager(){
-        players = new ArrayList<Combatant>();
+        players = FXCollections.observableArrayList();
         hpManager = new HPManager();
         conditionManager = new ConditionManager();
     }
@@ -55,11 +55,6 @@ public class FighterManager {
         }
               
         public PlayerChanger player(Combatant player){
-        /*This method is necessary for determining the player for which you want
-        to change the stats of. Unfortunately I don't know how to require it so 
-        it's possible to cal the the change-state functions on whatever 
-        combatant is already there, which is a problem.
-        */
             combatant = player;
             inFight = players.contains(combatant);
             return new PlayerChanger();
