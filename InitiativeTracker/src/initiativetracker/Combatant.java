@@ -1,18 +1,22 @@
 package initiativetracker;
 
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 
 public class Combatant implements Comparable{
     private String name;
     private int hitPoints, dexterity, initiative;
-    private ArrayList<String> conditions;
+    private ObservableList<String> conditions;
+    private boolean isCurrentPlayer;
     
     private Combatant(Builder builder){
         name = builder.name;
         hitPoints = builder.hitPoints;
         dexterity = builder.dexterity;
         initiative = builder.initiative;
-        conditions = new ArrayList<String>();
+        conditions = FXCollections.observableArrayList();
+        isCurrentPlayer = false;
     }
     
     //Setters
@@ -33,6 +37,9 @@ public class Combatant implements Comparable{
     public void setInitiative(int inInitiative){ 
         initiative = inInitiative; 
     }
+    public void setIsCurrentPlayer(boolean bool){
+        isCurrentPlayer = bool;
+    }
     
     //Getters
     public String getName(){ 
@@ -46,6 +53,19 @@ public class Combatant implements Comparable{
     }
     public int getInitiative(){ 
         return initiative; 
+    }
+    public ObservableList<String> getConditions(){
+        ObservableList<String> toReturn = conditions;
+        FXCollections.sort(toReturn);
+        return toReturn;
+    }
+    public String getIsCurrentPlayer(){
+        if(isCurrentPlayer){
+            return Character.toString((char)0x23E9);
+        }
+        else{
+            return "";
+        }
     }
     
     //Other methods  
@@ -98,7 +118,7 @@ public class Combatant implements Comparable{
     }    
     
     //Builder subclass
-    public static class Builder{
+    static class Builder{
         private String name;
         private int hitPoints, dexterity, initiative;
         

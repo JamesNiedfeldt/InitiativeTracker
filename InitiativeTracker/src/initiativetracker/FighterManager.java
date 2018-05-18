@@ -3,39 +3,68 @@ package initiativetracker;
 import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 public class FighterManager {
-    public static ObservableList<Combatant> players;
-    public static HPManager hpManager;
-    public static ConditionManager conditionManager;
+    private static ObservableList<Combatant> players;
+    private static HPManager hpManager;
+    private static ConditionManager conditionManager;
+    private static int currentPlayer;
     
     FighterManager(){
         players = FXCollections.observableArrayList();
         hpManager = new HPManager();
         conditionManager = new ConditionManager();
+        currentPlayer = 0;
     }
     
-    public void addPlayers(Combatant... args){
-        for(int i = 0; i < args.length; i++){
-            if(players.contains(args[i])){
+    //Getters
+    public HPManager getHpManager(){
+        return hpManager;
+    }
+    public ConditionManager getConditionManager(){
+        return conditionManager;
+    }
+    
+    public void addToTable(TableView table){
+        table.setItems(players); 
+    }
+    
+    public void addPlayers(Combatant... toAdd){
+        for(int i = 0; i < toAdd.length; i++){
+            if(players.contains(toAdd[i])){
                 //TODO: Something useful here
-                System.out.println(args[i].getName()
+                System.out.println(toAdd[i].getName()
                         + " is already accounted for");
             }
             else{
-                players.add(args[i]);  
+                players.add(toAdd[i]);  
             } 
         }
     }
     
     public void sortPlayers(){
         Collections.sort(players);
+        players.get(0).setIsCurrentPlayer(true);
     }
     
     public void killPlayers(Combatant... args){
         for(int i = 0; i < args.length; i++){
             players.remove(args[i]);
         } 
+    }
+    
+    public void nextTurn(){
+        if(currentPlayer < players.size() - 1){
+            players.get(currentPlayer).setIsCurrentPlayer(false);
+            players.get(currentPlayer + 1).setIsCurrentPlayer(true);
+            currentPlayer++;
+        }
+        else{
+            players.get(players.size() - 1).setIsCurrentPlayer(false);
+            players.get(0).setIsCurrentPlayer(true);
+            currentPlayer = 0;
+        }
     }
     
     public void printPlayers(){
@@ -46,11 +75,11 @@ public class FighterManager {
         }
     }
     
-    public class HPManager{
+    class HPManager{
         private Combatant combatant;
         private boolean inFight;
         
-        HPManager(){
+        private HPManager(){
             
         }
               
@@ -61,7 +90,7 @@ public class FighterManager {
         }
         
         public class PlayerChanger{
-            PlayerChanger(){
+            private PlayerChanger(){
                 
             }
             
@@ -89,11 +118,11 @@ public class FighterManager {
         }   
     }
     
-    public class ConditionManager{
+    class ConditionManager{
         private Combatant combatant;
         private boolean inFight;
         
-        ConditionManager(){
+        private ConditionManager(){
             
         }
         
@@ -104,7 +133,7 @@ public class FighterManager {
         }
         
         public class PlayerChanger{
-            PlayerChanger(){
+            private PlayerChanger(){
                 
             }
             

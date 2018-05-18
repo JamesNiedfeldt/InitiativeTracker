@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.MainScreenController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.MainScreenController">
    <top>
       <Label fx:id="label_title" text="Initiative Tracker" BorderPane.alignment="CENTER">
          <font>
@@ -25,8 +25,9 @@
             </Label>
             <TableView fx:id="tableview_players" layoutX="25.0" layoutY="50.0" prefHeight="290.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="column_name" prefWidth="152.0" text="Player" />
-                <TableColumn fx:id="column_hp" prefWidth="50.0" text="HP" />
+                  <TableColumn fx:id="column_currentturn" prefWidth="20.0" />
+                <TableColumn fx:id="column_name" prefWidth="126.0" text="Player" />
+                <TableColumn fx:id="column_hp" prefWidth="53.0" text="HP" />
               </columns>
             </TableView>
          </children>
@@ -42,11 +43,26 @@
             </Label>
             <Label fx:id="label_hptitle" layoutX="12.0" layoutY="50.0" prefHeight="20.0" text="HP:" />
             <Label fx:id="label_hpvalue" layoutX="42.0" layoutY="50.0" prefWidth="100.0" />
-            <TextField fx:id="textfield_changehp" layoutX="14.0" layoutY="205.0" prefHeight="30.0" prefWidth="63.0" />
-            <Button fx:id="button_gethit" layoutX="85.0" layoutY="205.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
-            <Button fx:id="button_heal" layoutX="168.0" layoutY="205.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
-            <Separator layoutX="-1.0" layoutY="39.0" prefHeight="11.0" prefWidth="366.0" />
+            <TextField fx:id="textfield_changehp" layoutX="14.0" layoutY="70.0" prefHeight="30.0" prefWidth="63.0" />
+            <Button fx:id="button_gethit" layoutX="85.0" layoutY="70.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
+            <Button fx:id="button_heal" layoutX="168.0" layoutY="70.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
+            <Separator layoutX="10.0" layoutY="39.0" prefHeight="11.0" prefWidth="346.0" />
+            <Label fx:id="label_conditiontitle" layoutX="14.0" layoutY="116.0" prefHeight="20.0" text="Conditions:" />
+            <ListView fx:id="listview_conditions" layoutX="14.0" layoutY="136.0" prefHeight="90.0" prefWidth="146.0" />
+            <Button fx:id="button_addcond" layoutX="168.0" layoutY="144.0" mnemonicParsing="false" prefWidth="75.0" text="Add..." />
+            <Button fx:id="button_removecond" layoutX="168.0" layoutY="188.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
+            <Button fx:id="button_editplayer" layoutX="55.0" layoutY="286.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
+            <Button fx:id="button_removeplayer" layoutX="195.0" layoutY="286.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
          </children>
       </AnchorPane>
    </right>
+   <bottom>
+      <AnchorPane prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator layoutX="20.0" prefWidth="560.0" />
+            <Button fx:id="button_nextturn" layoutX="130.0" layoutY="15.0" mnemonicParsing="false" prefWidth="105.0" text="Next Turn" />
+            <Button fx:id="button_addplayers" layoutX="365.0" layoutY="15.0" mnemonicParsing="false" prefWidth="105.0" text="Add Players..." />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>
