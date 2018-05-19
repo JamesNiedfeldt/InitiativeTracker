@@ -1,13 +1,16 @@
 package initiativetracker;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleListProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -37,9 +40,14 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_nextturn;
     @FXML private Button button_addplayers;
     
-    private FighterManager fighterManager;
+    public static FighterManager fighterManager;
     private Combatant selectedPlayer;
     private SimpleListProperty listProperty;
+    
+    private EditPlayerController editPlayerController;
+    private FXMLLoader loader;
+    private Parent root;
+    private Scene scene;
     
     //These are for testing
     private Combatant tempGuy1, tempGuy2, tempGuy3;
@@ -57,6 +65,22 @@ public class MainScreenController implements Initializable {
         fighterManager.sortPlayers();
         //End testing
         
+        loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("EditPlayerFXML.fxml"));
+        try{
+            root = loader.load();
+            scene = new Scene(root);
+        }
+        catch(IOException ex){
+            //TODO
+        }
+        
+        setupLeft();
+        setupRight();
+        setupBottom();
+    }  
+    
+    private void setupLeft(){
         column_currentturn.setCellValueFactory(new PropertyValueFactory<>("isCurrentPlayer"));
         column_currentturn.setSortable(false);
         column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -79,6 +103,10 @@ public class MainScreenController implements Initializable {
             }
         });
         
+        tableview_players.getSelectionModel().select(0);
+    }
+    
+    private void setupRight(){
         button_gethit.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 textfield_changehp.setStyle("-fx-border-color: NULL;");
@@ -152,7 +180,10 @@ public class MainScreenController implements Initializable {
         
         button_editplayer.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                //TODO
+                editPlayerController = loader.getController();
+                editPlayerController.initEditPlayer(selectedPlayer);
+                editPlayerController.setScene(scene);
+                editPlayerController.showAndWait();
             }
         });
         
@@ -162,7 +193,9 @@ public class MainScreenController implements Initializable {
                 fighterManager.killPlayers(selectedPlayer);
             }
         });
-        
+    }
+    
+    private void setupBottom(){
         button_nextturn.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 fighterManager.nextTurn();
@@ -170,6 +203,13 @@ public class MainScreenController implements Initializable {
             }
         });
         
-        tableview_players.getSelectionModel().select(0);
-    }        
+        button_addplayers.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent e){
+                editPlayerController = loader.getController();
+                editPlayerController.initNewPlayer();
+                editPlayerController.setScene(scene);
+                editPlayerController.showAndWait();
+            }
+        });
+    }
 }

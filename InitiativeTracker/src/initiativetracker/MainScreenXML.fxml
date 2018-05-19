@@ -41,16 +41,16 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="label_hptitle" layoutX="12.0" layoutY="50.0" prefHeight="20.0" text="HP:" />
-            <Label fx:id="label_hpvalue" layoutX="42.0" layoutY="50.0" prefWidth="100.0" />
-            <TextField fx:id="textfield_changehp" layoutX="14.0" layoutY="70.0" prefHeight="30.0" prefWidth="63.0" />
-            <Button fx:id="button_gethit" layoutX="85.0" layoutY="70.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
-            <Button fx:id="button_heal" layoutX="168.0" layoutY="70.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
+            <Label fx:id="label_hptitle" layoutX="68.0" layoutY="50.0" prefHeight="20.0" text="HP:" />
+            <Label fx:id="label_hpvalue" layoutX="98.0" layoutY="50.0" prefWidth="100.0" />
+            <TextField fx:id="textfield_changehp" layoutX="70.0" layoutY="70.0" prefHeight="30.0" prefWidth="63.0" />
+            <Button fx:id="button_gethit" layoutX="141.0" layoutY="70.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
+            <Button fx:id="button_heal" layoutX="224.0" layoutY="70.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
             <Separator layoutX="10.0" layoutY="39.0" prefHeight="11.0" prefWidth="346.0" />
-            <Label fx:id="label_conditiontitle" layoutX="14.0" layoutY="116.0" prefHeight="20.0" text="Conditions:" />
-            <ListView fx:id="listview_conditions" layoutX="14.0" layoutY="136.0" prefHeight="90.0" prefWidth="146.0" />
-            <Button fx:id="button_addcond" layoutX="168.0" layoutY="144.0" mnemonicParsing="false" prefWidth="75.0" text="Add..." />
-            <Button fx:id="button_removecond" layoutX="168.0" layoutY="188.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
+            <Label fx:id="label_conditiontitle" layoutX="70.0" layoutY="116.0" prefHeight="20.0" text="Conditions:" />
+            <ListView fx:id="listview_conditions" layoutX="70.0" layoutY="136.0" prefHeight="90.0" prefWidth="146.0" />
+            <Button fx:id="button_addcond" layoutX="224.0" layoutY="144.0" mnemonicParsing="false" prefWidth="75.0" text="Add..." />
+            <Button fx:id="button_removecond" layoutX="224.0" layoutY="188.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
             <Button fx:id="button_editplayer" layoutX="55.0" layoutY="286.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
             <Button fx:id="button_removeplayer" layoutX="195.0" layoutY="286.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
          </children>
