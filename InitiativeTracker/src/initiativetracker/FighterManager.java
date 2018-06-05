@@ -48,9 +48,20 @@ public class FighterManager {
         players.get(0).setIsCurrentPlayer(true);
     }
     
-    public void killPlayers(Combatant... args){
-        for(int i = 0; i < args.length; i++){
-            players.remove(args[i]);
+    public void killPlayers(Combatant... toKill){
+        int index;
+        
+        for(int i = 0; i < toKill.length; i++){
+            index = players.indexOf(toKill[i]);
+            if(index != -1 && players.get(index).getIsCurrentPlayer()){
+                if(index > toKill.length){
+                    players.get(0).setIsCurrentPlayer(true);
+                }
+                else{
+                    players.get(index + 1).setIsCurrentPlayer(true);
+                }
+            }
+            players.remove(toKill[i]);
         } 
     }
     

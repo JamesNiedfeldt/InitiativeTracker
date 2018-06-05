@@ -81,7 +81,7 @@ public class MainScreenController implements Initializable {
     }  
     
     private void setupLeft(){
-        column_currentturn.setCellValueFactory(new PropertyValueFactory<>("isCurrentPlayer"));
+        column_currentturn.setCellValueFactory(new PropertyValueFactory<>("currentPlayerIndicator"));
         column_currentturn.setSortable(false);
         column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         column_name.setSortable(false);

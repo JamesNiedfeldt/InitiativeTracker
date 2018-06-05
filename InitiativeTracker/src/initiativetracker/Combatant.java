@@ -59,7 +59,10 @@ public class Combatant implements Comparable{
         FXCollections.sort(toReturn);
         return toReturn;
     }
-    public String getIsCurrentPlayer(){
+    public boolean getIsCurrentPlayer(){
+        return isCurrentPlayer;
+    }
+    public String getCurrentPlayerIndicator(){
         if(isCurrentPlayer){
             return Character.toString((char)0x23E9);
         }
