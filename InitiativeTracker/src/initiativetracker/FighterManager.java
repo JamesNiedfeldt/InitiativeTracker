@@ -32,20 +32,21 @@ public class FighterManager {
     
     public void addPlayers(Combatant... toAdd){
         for(int i = 0; i < toAdd.length; i++){
-            if(players.contains(toAdd[i])){
+            /* Not sure if this is really necessary as the user may want 
+             * seemingly duplicate entries so it's left but commented out
+             */
+            
+            /*if(players.contains(toAdd[i])){
                 //TODO: Something useful here
                 System.out.println(toAdd[i].getName()
                         + " is already accounted for");
             }
             else{
                 players.add(toAdd[i]);  
-            } 
+            }*/
+            players.add(toAdd[i]);
         }
-    }
-    
-    public void sortPlayers(){
-        Collections.sort(players);
-        players.get(0).setIsCurrentPlayer(true);
+        sortPlayers();
     }
     
     public void killPlayers(Combatant... toKill){
@@ -53,8 +54,13 @@ public class FighterManager {
         
         for(int i = 0; i < toKill.length; i++){
             index = players.indexOf(toKill[i]);
-            if(index != -1 && players.get(index).getIsCurrentPlayer()){
-                if(index > toKill.length){
+            if(index != -1 && players.size() == 1){
+                players.remove(toKill[i]);
+                currentPlayer = 0;
+                break;
+            }
+            else if(index != -1 && players.get(index).getIsCurrentPlayer()){
+                if(index > players.size()){
                     players.get(0).setIsCurrentPlayer(true);
                 }
                 else{
@@ -84,6 +90,19 @@ public class FighterManager {
             players.get(i).print();
             System.out.println();
         }
+    }
+    
+    private void sortPlayers(){
+        Collections.sort(players);
+        
+        for(int i = 0; i < players.size(); i++){
+            if(players.get(i).getIsCurrentPlayer()){
+                currentPlayer = i;
+                break;
+            }
+        }
+        
+        players.get(currentPlayer).setIsCurrentPlayer(true);
     }
     
     class HPManager{

@@ -25,8 +25,7 @@ public class EditPlayerController extends Stage implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         button_cancel.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                Stage stage = (Stage) button_cancel.getScene().getWindow();
-                stage.close();
+                exit();
             }
         });
     }   
@@ -49,5 +48,30 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_hp.clear();
         textfield_dex.clear();
         textfield_init.clear();
+        
+        button_finish.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent e){
+                try{                  
+                    Combatant newPlayer = new Combatant
+                            .Builder(textfield_name.getText())
+                            .hp(Integer.parseInt(textfield_hp.getText()))
+                            .dex(Integer.parseInt(textfield_dex.getText()))
+                            .init(Integer.parseInt(textfield_init.getText()))
+                            .build();
+                            
+                    MainScreenController.fighterManager.addPlayers(newPlayer);
+                    
+                    exit();
+                }
+                catch(NumberFormatException x){
+                    //TODO: stuff
+                }                
+            }
+        });
+    }
+    
+    private void exit(){
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.close();
     }
 }

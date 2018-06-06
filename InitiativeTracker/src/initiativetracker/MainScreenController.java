@@ -62,7 +62,6 @@ public class MainScreenController implements Initializable {
         tempGuy3 = new Combatant.Builder("Athena").hp(50).init(11).build();
         
         fighterManager.addPlayers(tempGuy1, tempGuy2, tempGuy3);
-        fighterManager.sortPlayers();
         //End testing
         
         loader = new FXMLLoader();
@@ -100,6 +99,29 @@ public class MainScreenController implements Initializable {
                 label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
+                
+                //This is probably inefficient to do every time
+                button_addcond.setDisable(false);
+                button_removecond.setDisable(false);
+                button_gethit.setDisable(false);
+                button_heal.setDisable(false);
+                button_editplayer.setDisable(false);
+                button_removeplayer.setDisable(false);
+            }
+            else{
+                selectedPlayer = null;
+                
+                label_playername.setText("No player selected");
+                label_hpvalue.setText("");
+                listProperty.set(null);
+                listview_conditions.itemsProperty().bind(listProperty);
+                
+                button_addcond.setDisable(true);
+                button_removecond.setDisable(true);
+                button_gethit.setDisable(true);
+                button_heal.setDisable(true);
+                button_editplayer.setDisable(true);
+                button_removeplayer.setDisable(true);
             }
         });
         
