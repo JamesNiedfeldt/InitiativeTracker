@@ -62,11 +62,13 @@ public class FighterManager {
                 break;
             }
             else if(index != -1 && players.get(index).getIsCurrentPlayer()){
-                if(index > players.size()){
+                if(index >= players.size() - 1){
                     players.get(0).setIsCurrentPlayer(true);
+                    currentPlayer = 0;
                 }
                 else{
                     players.get(index + 1).setIsCurrentPlayer(true);
+                    currentPlayer = index + 1;
                 }
             }
             players.remove(toKill[i]);

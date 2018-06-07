@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EditPlayerController extends Stage implements Initializable {
@@ -23,6 +24,8 @@ public class EditPlayerController extends Stage implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.initModality(Modality.APPLICATION_MODAL);
+        
         button_cancel.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 exit();
@@ -62,7 +65,7 @@ public class EditPlayerController extends Stage implements Initializable {
     }
     
     public void initNewPlayer(){
-        label_title.setText("Create Player");
+        label_title.setText("Add Player");
         button_finish.setText("Add Player");
         
         textfield_name.clear();

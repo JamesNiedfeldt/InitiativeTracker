@@ -2,8 +2,12 @@ package initiativetracker;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,13 +15,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 
 public class MainScreenController implements Initializable {
     
@@ -32,7 +43,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_gethit;
     @FXML private Button button_heal;
     @FXML private ListView<String> listview_conditions;
-    @FXML private Button button_addcond;
+    @FXML private MenuButton button_addcond;
     @FXML private Button button_removecond;
     @FXML private Button button_editplayer;
     @FXML private Button button_removeplayer;
@@ -44,26 +55,17 @@ public class MainScreenController implements Initializable {
     public static FighterManager fighterManager;
     private Combatant selectedPlayer;
     private SimpleListProperty listProperty;
+    private boolean noPlayers = true;
     
     private EditPlayerController editPlayerController;
     private FXMLLoader loader;
     private Parent root;
     private Scene scene;
     
-    //These are for testing
-    private Combatant tempGuy1, tempGuy2, tempGuy3;
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fighterManager = new FighterManager();
         listProperty = new SimpleListProperty();
-        //For testing
-        tempGuy1 = new Combatant.Builder("Phoenix").hp(50).init(12).build();
-        tempGuy2 = new Combatant.Builder("Apollo").hp(50).init(13).build();
-        tempGuy3 = new Combatant.Builder("Athena").hp(50).init(11).build();
-        
-        fighterManager.addPlayers(tempGuy1, tempGuy2, tempGuy3);
-        //End testing
         
         loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("EditPlayerFXML.fxml"));
@@ -101,13 +103,9 @@ public class MainScreenController implements Initializable {
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
                 
-                //This is probably inefficient to do every time
-                button_addcond.setDisable(false);
-                button_removecond.setDisable(false);
-                button_gethit.setDisable(false);
-                button_heal.setDisable(false);
-                button_editplayer.setDisable(false);
-                button_removeplayer.setDisable(false);
+                if(!noPlayers){
+                    enableButtons(true);
+                }
             }
             else{
                 selectedPlayer = null;
@@ -117,19 +115,20 @@ public class MainScreenController implements Initializable {
                 listProperty.set(null);
                 listview_conditions.itemsProperty().bind(listProperty);
                 
-                button_addcond.setDisable(true);
-                button_removecond.setDisable(true);
-                button_gethit.setDisable(true);
-                button_heal.setDisable(true);
-                button_editplayer.setDisable(true);
-                button_removeplayer.setDisable(true);
+                enableButtons(false);
             }
         });
         
         tableview_players.getSelectionModel().select(0);
     }
     
-    private void setupRight(){
+    private void setupRight(){     
+        ObservableList<MenuItem> condMenu = FXCollections.observableArrayList();
+        for(Condition condition : Condition.values()){
+            condMenu.add(new MenuItem(condition.name));
+        }
+        button_addcond.getItems().addAll(condMenu);
+        
         button_gethit.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 textfield_changehp.setStyle("-fx-border-color: NULL;");
@@ -182,14 +181,29 @@ public class MainScreenController implements Initializable {
             }
         });
         
-        button_addcond.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent e){
-                fighterManager.getConditionManager()
-                        .player(selectedPlayer)
-                        .getsCondition("Poison");
-                listview_conditions.refresh();
-            }
-        });
+        for(MenuItem item : button_addcond.getItems()){
+            item.setOnAction(a->{
+                if("Custom...".equals(item.getText())){
+                    TextInputDialog dialog = new TextInputDialog("Condition");
+                    dialog.setTitle("Custom Condition");
+                    dialog.setHeaderText("Custom Condition");
+                    dialog.setContentText("Enter condition name:");
+                    
+                    Optional<String> result = dialog.showAndWait();
+                    if(result.isPresent() && !result.get().isEmpty()){
+                        fighterManager.getConditionManager()
+                                .player(selectedPlayer)
+                                .getsCondition(result.get());
+                    }
+                }
+                else{
+                    fighterManager.getConditionManager()
+                            .player(selectedPlayer)
+                            .getsCondition(item.getText());
+                    listview_conditions.refresh();
+                }
+            });
+        }
         
         button_removecond.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
@@ -212,8 +226,19 @@ public class MainScreenController implements Initializable {
         
         button_removeplayer.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                //TODO: Add a confirm box
-                fighterManager.killPlayers(selectedPlayer);
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Delete Player");
+                alert.setHeaderText(String.format(
+                        "Are you sure you want to delete %s?", selectedPlayer.getName()));
+                
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    fighterManager.killPlayers(selectedPlayer);
+                    if(fighterManager.getPlayerNumber() <= 0){
+                        noPlayers = true;
+                        enableButtons(false);
+                    }
+                }
             }
         });
     }
@@ -221,7 +246,7 @@ public class MainScreenController implements Initializable {
     private void setupBottom(){
         button_nextturn.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                if(fighterManager.getPlayerNumber() != 0){
+                if(fighterManager.getPlayerNumber() > 0){
                    fighterManager.nextTurn();
                     tableview_players.refresh(); 
                 } 
@@ -234,16 +259,63 @@ public class MainScreenController implements Initializable {
                 editPlayerController.initNewPlayer();
                 editPlayerController.setScene(scene);
                 editPlayerController.showAndWait();
+                
+                if(fighterManager.getPlayerNumber() > 0){
+                    noPlayers = false;
+                }
             }
         });
         
         button_sortplayers.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                if(fighterManager.getPlayerNumber() != 0){
+                if(fighterManager.getPlayerNumber() > 0){
                     fighterManager.sortPlayers();
                     tableview_players.refresh();
                 }
             }
         });
+    }
+    
+    private void enableButtons(boolean enable){
+        if(enable){
+            button_addcond.setDisable(false);
+            button_removecond.setDisable(false);
+            button_gethit.setDisable(false);
+            button_heal.setDisable(false);
+            button_editplayer.setDisable(false);
+            button_removeplayer.setDisable(false);
+        }
+        else{
+            button_addcond.setDisable(true);
+            button_removecond.setDisable(true);
+            button_gethit.setDisable(true);
+            button_heal.setDisable(true);
+            button_editplayer.setDisable(true);
+            button_removeplayer.setDisable(true);
+        }
+    }
+    
+    private enum Condition{
+        BLINDED("Blinded"),
+        CHARMED("Charmed"),
+        DEAFENED("Deafened"),
+        FATIGUED("Fatigued"),
+        FRIGHTENED("Frightened"),
+        GRAPPLED("Grappled"),
+        INCAPPED("Incapacitated"),
+        INVISIBLE("Invisible"),
+        PARALYZED("Paralyzed"),
+        PETRIFIED("Petrified"),
+        POISONED("Poisoned"),
+        PRONE("Prone"),
+        RESTRAINED("Restrained"),
+        STUNNED("Stunned"),
+        UNCONCIOUS("Unconcious"),
+        CUSTOM("Custom...");
+        
+        private String name;
+        Condition(String name){
+            this.name = name;
+        }
     }
 }
