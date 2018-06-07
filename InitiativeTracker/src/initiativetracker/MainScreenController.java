@@ -39,6 +39,7 @@ public class MainScreenController implements Initializable {
     
     @FXML private Button button_nextturn;
     @FXML private Button button_addplayers;
+    @FXML private Button button_sortplayers;
     
     public static FighterManager fighterManager;
     private Combatant selectedPlayer;
@@ -220,8 +221,10 @@ public class MainScreenController implements Initializable {
     private void setupBottom(){
         button_nextturn.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                fighterManager.nextTurn();
-                tableview_players.refresh();
+                if(fighterManager.getPlayerNumber() != 0){
+                   fighterManager.nextTurn();
+                    tableview_players.refresh(); 
+                } 
             }
         });
         
@@ -231,6 +234,15 @@ public class MainScreenController implements Initializable {
                 editPlayerController.initNewPlayer();
                 editPlayerController.setScene(scene);
                 editPlayerController.showAndWait();
+            }
+        });
+        
+        button_sortplayers.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent e){
+                if(fighterManager.getPlayerNumber() != 0){
+                    fighterManager.sortPlayers();
+                    tableview_players.refresh();
+                }
             }
         });
     }

@@ -38,6 +38,27 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_hp.setText(Integer.toString(combatant.getHitPoints()));
         textfield_dex.setText(Integer.toString(combatant.getDexterity()));
         textfield_init.setText(Integer.toString(combatant.getInitiative()));
+        
+        button_finish.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent e){
+                try{                  
+                    Combatant editedPlayer = new Combatant
+                            .Builder(textfield_name.getText())
+                            .hp(Integer.parseInt(textfield_hp.getText()))
+                            .dex(Integer.parseInt(textfield_dex.getText()))
+                            .init(Integer.parseInt(textfield_init.getText()))
+                            .build();;
+                            
+                    MainScreenController.fighterManager
+                            .replacePlayers(combatant, editedPlayer);
+                    
+                    exit();
+                }
+                catch(NumberFormatException x){
+                    //TODO: make specific wrong fields red
+                }  
+            }
+        });
     }
     
     public void initNewPlayer(){
@@ -64,7 +85,7 @@ public class EditPlayerController extends Stage implements Initializable {
                     exit();
                 }
                 catch(NumberFormatException x){
-                    //TODO: stuff
+                    //TODO: make specific wrong fields red
                 }                
             }
         });

@@ -25,6 +25,9 @@ public class FighterManager {
     public ConditionManager getConditionManager(){
         return conditionManager;
     }
+    public int getPlayerNumber(){
+        return players.size();
+    }
     
     public void addToTable(TableView table){
         table.setItems(players); 
@@ -46,7 +49,6 @@ public class FighterManager {
             }*/
             players.add(toAdd[i]);
         }
-        sortPlayers();
     }
     
     public void killPlayers(Combatant... toKill){
@@ -71,6 +73,18 @@ public class FighterManager {
         } 
     }
     
+    public void replacePlayers(Combatant playerOut, Combatant playerIn){
+        int index = players.indexOf(playerOut);
+        
+        if(playerOut.getIsCurrentPlayer()){
+            playerIn.setIsCurrentPlayer(true);
+        }
+        if(index != -1){
+            players.remove(playerOut);
+            players.add(index, playerIn);
+        }
+    }
+    
     public void nextTurn(){
         if(currentPlayer < players.size() - 1){
             players.get(currentPlayer).setIsCurrentPlayer(false);
@@ -92,16 +106,12 @@ public class FighterManager {
         }
     }
     
-    private void sortPlayers(){
+    public void sortPlayers(){
         Collections.sort(players);
-        
+        currentPlayer = 0;
         for(int i = 0; i < players.size(); i++){
-            if(players.get(i).getIsCurrentPlayer()){
-                currentPlayer = i;
-                break;
-            }
+            players.get(i).setIsCurrentPlayer(false);
         }
-        
         players.get(currentPlayer).setIsCurrentPlayer(true);
     }
     
