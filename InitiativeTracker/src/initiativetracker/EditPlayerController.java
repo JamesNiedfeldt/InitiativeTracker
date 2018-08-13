@@ -41,24 +41,35 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_hp.setText(Integer.toString(combatant.getHitPoints()));
         textfield_dex.setText(Integer.toString(combatant.getDexterity()));
         textfield_init.setText(Integer.toString(combatant.getInitiative()));
+        textfield_name.setStyle("-fx-border-color: NULL;");
+        textfield_hp.setStyle("-fx-border-color: NULL;");
+        textfield_dex.setStyle("-fx-border-color: NULL;");
+        textfield_init.setStyle("-fx-border-color: NULL;");
         
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                try{                  
+                
+                try{                   
+                    textfield_name.setStyle("-fx-border-color: NULL;");
+                    textfield_hp.setStyle("-fx-border-color: NULL;");
+                    textfield_dex.setStyle("-fx-border-color: NULL;");
+                    textfield_init.setStyle("-fx-border-color: NULL;");
+                    checkFields();
+                    
                     Combatant editedPlayer = new Combatant
                             .Builder(textfield_name.getText())
                             .hp(Integer.parseInt(textfield_hp.getText()))
                             .dex(Integer.parseInt(textfield_dex.getText()))
                             .init(Integer.parseInt(textfield_init.getText()))
-                            .build();;
+                            .build();
                             
                     MainScreenController.fighterManager
                             .replacePlayers(combatant, editedPlayer);
                     
                     exit();
                 }
-                catch(NumberFormatException x){
-                    //TODO: make specific wrong fields red
+                catch(Exception x){
+
                 }  
             }
         });
@@ -72,10 +83,19 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_hp.clear();
         textfield_dex.clear();
         textfield_init.clear();
+        textfield_name.setStyle("-fx-border-color: NULL;");
+        textfield_hp.setStyle("-fx-border-color: NULL;");
+        textfield_dex.setStyle("-fx-border-color: NULL;");
+        textfield_init.setStyle("-fx-border-color: NULL;");
         
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                try{                  
+                try{     
+                    textfield_name.setStyle("-fx-border-color: NULL;");
+                    textfield_hp.setStyle("-fx-border-color: NULL;");
+                    textfield_dex.setStyle("-fx-border-color: NULL;");
+                    textfield_init.setStyle("-fx-border-color: NULL;");
+                    checkFields();
                     Combatant newPlayer = new Combatant
                             .Builder(textfield_name.getText())
                             .hp(Integer.parseInt(textfield_hp.getText()))
@@ -87,8 +107,8 @@ public class EditPlayerController extends Stage implements Initializable {
                     
                     exit();
                 }
-                catch(NumberFormatException x){
-                    //TODO: make specific wrong fields red
+                catch(Exception x){
+                    
                 }                
             }
         });
@@ -97,5 +117,59 @@ public class EditPlayerController extends Stage implements Initializable {
     private void exit(){
         Stage stage = (Stage) this.getScene().getWindow();
         stage.close();
+    }
+    
+    private void checkFields(){
+        //Surely there must be a cleaner way to do this
+        boolean foundExc = false;
+        
+        try{
+            if(textfield_name.getText().isEmpty()){
+                textfield_name.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_hp.getText().isEmpty()){
+                textfield_hp.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_dex.getText().isEmpty()){
+                textfield_dex.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_init.getText().isEmpty()){
+                textfield_init.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            
+            
+            try{
+                Integer.parseInt(textfield_hp.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_hp.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            try{
+                Integer.parseInt(textfield_dex.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_dex.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            try{
+                Integer.parseInt(textfield_init.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_init.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            
+            if(foundExc){
+                throw new RuntimeException();
+            }
+        }
+        catch(Exception x){
+            throw x;
+        }
     }
 }
