@@ -60,9 +60,10 @@
       <AnchorPane prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Separator layoutX="20.0" prefWidth="560.0" />
-            <Button fx:id="button_nextturn" layoutX="130.0" layoutY="15.0" mnemonicParsing="false" prefWidth="105.0" text="Next Turn" />
-            <Button fx:id="button_addplayers" layoutX="365.0" layoutY="15.0" mnemonicParsing="false" prefWidth="105.0" text="Add Players..." />
-            <Button fx:id="button_sortplayers" layoutX="248.0" layoutY="15.0" mnemonicParsing="false" prefWidth="105.0" text="Turn Order" />
+            <Button fx:id="button_nextturn" layoutX="69.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Next Turn" />
+            <Button fx:id="button_addplayers" layoutX="304.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Players..." />
+            <Button fx:id="button_sortplayers" layoutX="187.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Turn Order" />
+            <Button fx:id="button_addenemies" layoutX="422.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Enemies..." />
          </children>
       </AnchorPane>
    </bottom>

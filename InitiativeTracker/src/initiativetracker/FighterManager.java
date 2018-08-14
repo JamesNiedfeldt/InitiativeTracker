@@ -29,6 +29,10 @@ public class FighterManager {
         return players.size();
     }
     
+    public int getCurrentPlayer(){
+        return currentPlayer;
+    }
+    
     public void addToTable(TableView table){
         table.setItems(players); 
     }
@@ -68,7 +72,6 @@ public class FighterManager {
                 }
                 else{
                     players.get(index + 1).setIsCurrentPlayer(true);
-                    currentPlayer = index + 1;
                 }
             }
             players.remove(toKill[i]);

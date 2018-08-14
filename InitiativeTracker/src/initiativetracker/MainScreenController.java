@@ -2,7 +2,6 @@ package initiativetracker;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleListProperty;
@@ -28,7 +27,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 
 public class MainScreenController implements Initializable {
     
@@ -51,6 +49,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_nextturn;
     @FXML private Button button_addplayers;
     @FXML private Button button_sortplayers;
+    @FXML private Button button_addenemies;
     
     public static FighterManager fighterManager;
     private Combatant selectedPlayer;
@@ -58,20 +57,28 @@ public class MainScreenController implements Initializable {
     private boolean noPlayers = true;
     
     private EditPlayerController editPlayerController;
-    private FXMLLoader loader;
-    private Parent root;
-    private Scene scene;
+    private BulkPlayerAddController bulkPlayerAddController;
+    private FXMLLoader editPlayerLoader;
+    private FXMLLoader bulkAddLoader;
+    private Parent editPlayerRoot;
+    private Parent bulkAddRoot;
+    private Scene editPlayerScene;
+    private Scene bulkAddScene;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fighterManager = new FighterManager();
         listProperty = new SimpleListProperty();
         
-        loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("EditPlayerFXML.fxml"));
+        editPlayerLoader = new FXMLLoader();
+        bulkAddLoader = new FXMLLoader();
+        editPlayerLoader.setLocation(getClass().getResource("EditPlayerFXML.fxml"));
+        bulkAddLoader.setLocation(getClass().getResource("BulkPlayerAddFXML.fxml"));
         try{
-            root = loader.load();
-            scene = new Scene(root);
+            editPlayerRoot = editPlayerLoader.load();
+            editPlayerScene = new Scene(editPlayerRoot);
+            bulkAddRoot = bulkAddLoader.load();
+            bulkAddScene = new Scene(bulkAddRoot);
         }
         catch(IOException ex){
             //TODO
@@ -217,9 +224,9 @@ public class MainScreenController implements Initializable {
         
         button_editplayer.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                editPlayerController = loader.getController();
+                editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initEditPlayer(selectedPlayer);
-                editPlayerController.setScene(scene);
+                editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
             }
         });
@@ -238,6 +245,9 @@ public class MainScreenController implements Initializable {
                         noPlayers = true;
                         enableButtons(false);
                     }
+                    else{
+                        tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
+                    }
                 }
             }
         });
@@ -248,16 +258,17 @@ public class MainScreenController implements Initializable {
             public void handle(ActionEvent e){
                 if(fighterManager.getPlayerNumber() > 0){
                    fighterManager.nextTurn();
-                    tableview_players.refresh(); 
+                   tableview_players.refresh();
+                   tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
                 } 
             }
         });
         
         button_addplayers.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
-                editPlayerController = loader.getController();
+                editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initNewPlayer();
-                editPlayerController.setScene(scene);
+                editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
                 
                 if(fighterManager.getPlayerNumber() > 0){
@@ -271,8 +282,22 @@ public class MainScreenController implements Initializable {
                 if(fighterManager.getPlayerNumber() > 0){
                     fighterManager.sortPlayers();
                     tableview_players.refresh();
+                    tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
                 }
             }
+        });
+        
+        button_addenemies.setOnAction(new EventHandler<ActionEvent>(){
+           public void handle(ActionEvent e){
+               bulkPlayerAddController = bulkAddLoader.getController();
+               bulkPlayerAddController.clear();
+               bulkPlayerAddController.setScene(bulkAddScene);
+               bulkPlayerAddController.showAndWait();
+               
+               if(fighterManager.getPlayerNumber() > 0){
+                    noPlayers = false;
+                }
+           } 
         });
     }
     
