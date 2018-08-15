@@ -257,6 +257,7 @@ public class MainScreenController implements Initializable {
         button_nextturn.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 if(fighterManager.getPlayerNumber() > 0){
+                   textfield_changehp.clear();
                    fighterManager.nextTurn();
                    tableview_players.refresh();
                    tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());

@@ -120,7 +120,6 @@ public class EditPlayerController extends Stage implements Initializable {
     }
     
     private void checkFields(){
-        //Surely there must be a cleaner way to do this
         boolean foundExc = false;
         
         try{

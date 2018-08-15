@@ -40,17 +40,12 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
                try{
-                   textfield_name.setStyle("-fx-border-color: NULL;");
-                   textfield_hprolls.setStyle("-fx-border-color: NULL;");
-                   textfield_hpbase.setStyle("-fx-border-color: NULL;");
-                   textfield_dex.setStyle("-fx-border-color: NULL;");
-                   textfield_enemynum.setStyle("-fx-border-color: NULL;");
+                   checkFields();
+                   finish();
                }
                catch(Exception x){
                    
                }
-               
-               finish();
            } 
         });
         
@@ -83,7 +78,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         int rollNum = Integer.parseInt(textfield_hprolls.getText());
         //This seems really dirty. Fix?
         int dieMax = ((Die)dropdown_die.getSelectionModel().getSelectedItem()).sides;
-        int baseHp = Integer.parseInt(textfield_hpbase.getText());
+        int baseHp;
         int enemyNum = Integer.parseInt(textfield_enemynum.getText());
         int dex = Integer.parseInt(textfield_dex.getText());
         int hitPoints;
@@ -91,6 +86,13 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         String name;
         Combatant enemy;
         
+        if(textfield_hpbase.getText().isEmpty()){
+            baseHp = 0;
+        }
+        else{
+            baseHp = Integer.parseInt(textfield_hpbase.getText());
+        }
+
         for(int i = 0; i < enemyNum; i++){
             name = textfield_name.getText() + " " + (i + 1);
             hitPoints = 0;
@@ -100,16 +102,91 @@ public class BulkPlayerAddController extends Stage implements Initializable {
             }
             hitPoints += baseHp;
             init += ((Math.random() * 19) + 1) + dex;
-            
+
             enemy = new Combatant.Builder(name).dex(Integer.parseInt(textfield_dex.getText()))
                     .hp(hitPoints)
                     .init(init)
                     .build();
-            
+
             MainScreenController.fighterManager.addPlayers(enemy);
         }
         
         exit();
+    }
+    
+    private void checkFields(){
+        boolean foundExc = false;
+        
+        try{
+            if(textfield_name.getText().isEmpty()){
+                textfield_name.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_hprolls.getText().isEmpty()){
+                textfield_hprolls.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_dex.getText().isEmpty()){
+                textfield_dex.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_enemynum.getText().isEmpty()){
+                textfield_enemynum.setStyle("-fx-border-color: RED");
+            }
+            
+            
+            try{
+                Integer.parseInt(textfield_hprolls.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_hprolls.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(!textfield_hpbase.getText().isEmpty()){
+                try{
+                    Integer.parseInt(textfield_hpbase.getText());
+                }
+                catch(NumberFormatException x){
+                    textfield_hpbase.setStyle("-fx-border-color: RED;");
+                }
+            }
+            
+            try{
+                Integer.parseInt(textfield_dex.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_dex.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            try{
+                Integer.parseInt(textfield_enemynum.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_enemynum.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            
+            if(Integer.parseInt(textfield_hprolls.getText()) <= 0){
+                textfield_hprolls.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(!textfield_hpbase.getText().isEmpty() && 
+                    Integer.parseInt(textfield_hpbase.getText()) < 0){
+                textfield_hpbase.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(Integer.parseInt(textfield_enemynum.getText()) <= 0){
+                textfield_enemynum.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            
+            if(foundExc){
+                throw new RuntimeException();
+            }
+        }
+        catch(Exception x){
+            throw x;
+        }
     }
     
     private enum Die{
