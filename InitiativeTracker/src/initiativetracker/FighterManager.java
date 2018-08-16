@@ -1,6 +1,7 @@
 package initiativetracker;
 
 import java.util.Collections;
+import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -18,7 +19,6 @@ public class FighterManager {
         currentPlayer = 0;
     }
     
-    //Getters
     public HPManager getHpManager(){
         return hpManager;
     }
@@ -38,44 +38,40 @@ public class FighterManager {
     }
     
     public void addPlayers(Combatant... toAdd){
-        for(int i = 0; i < toAdd.length; i++){
-            /* Not sure if this is really necessary as the user may want 
-             * seemingly duplicate entries so it's left but commented out
-             */
-            
-            /*if(players.contains(toAdd[i])){
-                //TODO: Something useful here
-                System.out.println(toAdd[i].getName()
-                        + " is already accounted for");
-            }
-            else{
-                players.add(toAdd[i]);  
-            }*/
-            players.add(toAdd[i]);
+        for(Combatant combatant : toAdd){
+            players.add(combatant);
         }
     }
     
     public void killPlayers(Combatant... toKill){
         int index;
         
-        for(int i = 0; i < toKill.length; i++){
-            index = players.indexOf(toKill[i]);
-            if(index != -1 && players.size() == 1){
-                players.remove(toKill[i]);
-                currentPlayer = 0;
-                break;
-            }
-            else if(index != -1 && players.get(index).getIsCurrentPlayer()){
-                if(index >= players.size() - 1){
-                    players.get(0).setIsCurrentPlayer(true);
+        for(Combatant combatant : toKill){
+            index = players.indexOf(combatant);
+            if(!combatant.getIsSaved()){
+                if(index != -1 && players.size() == 1){
+                    players.remove(combatant);
                     currentPlayer = 0;
+                    break;
                 }
-                else{
-                    players.get(index + 1).setIsCurrentPlayer(true);
+                else if(index != -1 && players.get(index).getIsCurrentPlayer()){
+                    if(index >= players.size() - 1){
+                        players.get(0).setIsCurrentPlayer(true);
+                        currentPlayer = 0;
+                    }
+                    else{
+                        players.get(index + 1).setIsCurrentPlayer(true);
+                    }
                 }
+                players.remove(combatant);
             }
-            players.remove(toKill[i]);
         } 
+    }
+    
+    public void killAllPlayers(){
+        Combatant[] toKill = players.toArray(new Combatant[players.size()]);
+        
+        killPlayers(toKill);
     }
     
     public void replacePlayers(Combatant playerOut, Combatant playerIn){

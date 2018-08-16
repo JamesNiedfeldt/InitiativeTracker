@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,7 +34,6 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         dropdown_die.getItems().addAll(dice);
         
         this.initModality(Modality.APPLICATION_MODAL);
-        dropdown_die.getSelectionModel().select(0);
         
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
@@ -67,6 +65,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         textfield_hpbase.clear();
         textfield_dex.clear();
         textfield_enemynum.clear();
+        dropdown_die.getSelectionModel().select(0);
     }
     
     private void exit(){

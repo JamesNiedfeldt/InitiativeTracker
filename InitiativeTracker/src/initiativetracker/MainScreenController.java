@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
@@ -34,6 +35,8 @@ public class MainScreenController implements Initializable {
     @FXML private TableColumn column_name;
     @FXML private TableColumn column_hp;
     @FXML private TableColumn column_currentturn;
+    @FXML private Button button_sortplayers;
+    @FXML private Button button_nextturn;
     
     @FXML private Label label_playername;
     @FXML private Label label_hpvalue;
@@ -45,11 +48,11 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_removecond;
     @FXML private Button button_editplayer;
     @FXML private Button button_removeplayer;
-    
-    @FXML private Button button_nextturn;
+    @FXML private CheckBox checkbox_save;
+  
     @FXML private Button button_addplayers;
-    @FXML private Button button_sortplayers;
     @FXML private Button button_addenemies;
+    @FXML private Button button_deleteall;
     
     public static FighterManager fighterManager;
     private Combatant selectedPlayer;
@@ -84,6 +87,8 @@ public class MainScreenController implements Initializable {
             //TODO
         }
         
+        disableButtons(true);
+        
         setupLeft();
         setupRight();
         setupBottom();
@@ -109,9 +114,10 @@ public class MainScreenController implements Initializable {
                 label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
+                checkbox_save.setSelected(selectedPlayer.getIsSaved());
                 
                 if(!noPlayers){
-                    enableButtons(true);
+                    disableButtons(false);
                 }
             }
             else{
@@ -122,7 +128,28 @@ public class MainScreenController implements Initializable {
                 listProperty.set(null);
                 listview_conditions.itemsProperty().bind(listProperty);
                 
-                enableButtons(false);
+                disableButtons(true);
+            }
+        });
+        
+        button_nextturn.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent e){
+                if(fighterManager.getPlayerNumber() > 0){
+                   textfield_changehp.clear();
+                   fighterManager.nextTurn();
+                   tableview_players.refresh();
+                   tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
+                } 
+            }
+        });
+        
+        button_sortplayers.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent e){
+                if(fighterManager.getPlayerNumber() > 0){
+                    fighterManager.sortPlayers();
+                    tableview_players.refresh();
+                    tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
+                }
             }
         });
         
@@ -155,9 +182,7 @@ public class MainScreenController implements Initializable {
                     tableview_players.refresh();
                 }
                 catch(NumberFormatException x){
-                    //TODO: something useful here
-                    textfield_changehp.setStyle("-fx-border-color: RED");
-                    System.out.println("Problem");
+                    textfield_changehp.setStyle("-fx-border-color: RED;");
                 }
             }
         });
@@ -181,9 +206,7 @@ public class MainScreenController implements Initializable {
                     tableview_players.refresh();
                 }
                 catch(NumberFormatException x){
-                    //TODO: something useful here
-                    textfield_changehp.setStyle("-fx-border-color: RED");
-                    System.out.println("Problem");
+                    textfield_changehp.setStyle("-fx-border-color: RED;");
                 }
             }
         });
@@ -243,7 +266,7 @@ public class MainScreenController implements Initializable {
                     fighterManager.killPlayers(selectedPlayer);
                     if(fighterManager.getPlayerNumber() <= 0){
                         noPlayers = true;
-                        enableButtons(false);
+                        disableButtons(true);
                     }
                     else{
                         tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
@@ -251,20 +274,15 @@ public class MainScreenController implements Initializable {
                 }
             }
         });
+        
+        checkbox_save.setOnAction(new EventHandler<ActionEvent>(){
+           public void handle(ActionEvent e){
+               selectedPlayer.setIsSaved(checkbox_save.isSelected());
+           } 
+        });
     }
     
     private void setupBottom(){
-        button_nextturn.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent e){
-                if(fighterManager.getPlayerNumber() > 0){
-                   textfield_changehp.clear();
-                   fighterManager.nextTurn();
-                   tableview_players.refresh();
-                   tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
-                } 
-            }
-        });
-        
         button_addplayers.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 editPlayerController = editPlayerLoader.getController();
@@ -277,17 +295,7 @@ public class MainScreenController implements Initializable {
                 }
             }
         });
-        
-        button_sortplayers.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent e){
-                if(fighterManager.getPlayerNumber() > 0){
-                    fighterManager.sortPlayers();
-                    tableview_players.refresh();
-                    tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
-                }
-            }
-        });
-        
+               
         button_addenemies.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
                bulkPlayerAddController = bulkAddLoader.getController();
@@ -300,24 +308,36 @@ public class MainScreenController implements Initializable {
                 }
            } 
         });
+        
+        button_deleteall.setOnAction(new EventHandler<ActionEvent>(){
+           public void handle(ActionEvent e){
+               Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Delete All");
+                alert.setHeaderText(String.format(
+                        "Are you sure you want to delete all fighters?"));
+                
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == ButtonType.OK){
+                    fighterManager.killAllPlayers();
+                }
+            } 
+        });
     }
     
-    private void enableButtons(boolean enable){
-        if(enable){
-            button_addcond.setDisable(false);
-            button_removecond.setDisable(false);
-            button_gethit.setDisable(false);
-            button_heal.setDisable(false);
-            button_editplayer.setDisable(false);
-            button_removeplayer.setDisable(false);
-        }
-        else{
-            button_addcond.setDisable(true);
-            button_removecond.setDisable(true);
-            button_gethit.setDisable(true);
-            button_heal.setDisable(true);
-            button_editplayer.setDisable(true);
-            button_removeplayer.setDisable(true);
+    private void disableButtons(boolean bool){
+        button_addcond.setDisable(bool);
+        button_removecond.setDisable(bool);
+        button_gethit.setDisable(bool);
+        button_heal.setDisable(bool);
+        button_editplayer.setDisable(bool);
+        button_removeplayer.setDisable(bool);
+        listview_conditions.setDisable(bool);
+        textfield_changehp.setDisable(bool);
+        checkbox_save.setDisable(bool);
+        
+        if(bool){
+            textfield_changehp.clear();
+            checkbox_save.setSelected(false);
         }
     }
     

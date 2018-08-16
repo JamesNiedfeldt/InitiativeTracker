@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.MainScreenController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.MainScreenController">
    <top>
       <Label fx:id="label_title" text="Initiative Tracker" BorderPane.alignment="CENTER">
          <font>
@@ -30,13 +30,15 @@
                 <TableColumn fx:id="column_hp" prefWidth="53.0" text="HP" />
               </columns>
             </TableView>
+            <Button fx:id="button_sortplayers" layoutX="25.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Sort" />
+            <Button fx:id="button_nextturn" layoutX="135.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Next Turn" />
          </children>
       </AnchorPane>
    </left>
    <right>
       <AnchorPane fx:id="anchorplane_selectedplayer" prefHeight="364.0" prefWidth="366.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuButton fx:id="button_addcond" disable="true" layoutX="224.0" layoutY="144.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" text="Add" />
+            <MenuButton fx:id="button_addcond" layoutX="224.0" layoutY="144.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" text="Add" />
             <Label fx:id="label_playername" alignment="CENTER" layoutX="-1.0" layoutY="14.0" prefHeight="25.0" prefWidth="366.0">
                <font>
                   <Font size="16.0" />
@@ -45,14 +47,15 @@
             <Label fx:id="label_hptitle" layoutX="55.0" layoutY="56.0" prefHeight="20.0" text="HP:" />
             <Label fx:id="label_hpvalue" layoutX="80.0" layoutY="56.0" prefWidth="100.0" />
             <TextField fx:id="textfield_changehp" layoutX="57.0" layoutY="76.0" prefHeight="30.0" prefWidth="63.0" />
-            <Button fx:id="button_gethit" disable="true" layoutX="133.0" layoutY="76.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
-            <Button fx:id="button_heal" disable="true" layoutX="224.0" layoutY="76.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
+            <Button fx:id="button_gethit" layoutX="133.0" layoutY="76.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
+            <Button fx:id="button_heal" layoutX="224.0" layoutY="76.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
             <Separator layoutX="10.0" layoutY="39.0" prefHeight="11.0" prefWidth="346.0" />
             <Label fx:id="label_conditiontitle" layoutX="57.0" layoutY="122.0" prefHeight="20.0" text="Conditions:" />
             <ListView fx:id="listview_conditions" layoutX="57.0" layoutY="142.0" prefHeight="90.0" prefWidth="146.0" />
-            <Button fx:id="button_removecond" disable="true" layoutX="224.0" layoutY="188.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
-            <Button fx:id="button_editplayer" disable="true" layoutX="55.0" layoutY="286.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
-            <Button fx:id="button_removeplayer" disable="true" layoutX="195.0" layoutY="286.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
+            <Button fx:id="button_removecond" layoutX="224.0" layoutY="188.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
+            <Button fx:id="button_editplayer" layoutX="58.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
+            <Button fx:id="button_removeplayer" layoutX="198.0" layoutY="355.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
+            <CheckBox fx:id="checkbox_save" layoutX="58.0" layoutY="250.0" mnemonicParsing="false" text="Do not delete" />
          </children>
       </AnchorPane>
    </right>
@@ -60,10 +63,9 @@
       <AnchorPane prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Separator layoutX="20.0" prefWidth="560.0" />
-            <Button fx:id="button_nextturn" layoutX="69.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Next Turn" />
-            <Button fx:id="button_addplayers" layoutX="304.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Players..." />
-            <Button fx:id="button_sortplayers" layoutX="187.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Turn Order" />
-            <Button fx:id="button_addenemies" layoutX="422.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Enemies..." />
+            <Button fx:id="button_addplayers" layoutX="110.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Players..." />
+            <Button fx:id="button_addenemies" layoutX="245.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Enemies..." />
+            <Button fx:id="button_deleteall" layoutX="380.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Delete All" />
          </children>
       </AnchorPane>
    </bottom>

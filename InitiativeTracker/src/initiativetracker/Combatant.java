@@ -1,6 +1,5 @@
 package initiativetracker;
 
-import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 
@@ -8,7 +7,7 @@ public class Combatant implements Comparable{
     private String name;
     private int hitPoints, dexterity, initiative;
     private ObservableList<String> conditions;
-    private boolean isCurrentPlayer;
+    private boolean isCurrentPlayer, isSaved;
     
     private Combatant(Builder builder){
         name = builder.name;
@@ -17,6 +16,7 @@ public class Combatant implements Comparable{
         initiative = builder.initiative;
         conditions = FXCollections.observableArrayList();
         isCurrentPlayer = false;
+        isSaved = false;
     }
     
     //Setters
@@ -39,6 +39,9 @@ public class Combatant implements Comparable{
     }
     public void setIsCurrentPlayer(boolean bool){
         isCurrentPlayer = bool;
+    }
+    public void setIsSaved(boolean bool){
+        isSaved = bool;
     }
     
     //Getters
@@ -69,6 +72,9 @@ public class Combatant implements Comparable{
         else{
             return "";
         }
+    }
+    public boolean getIsSaved(){
+        return isSaved;
     }
     
     //Other methods  
