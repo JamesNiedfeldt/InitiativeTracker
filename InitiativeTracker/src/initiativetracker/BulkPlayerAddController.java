@@ -66,6 +66,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         textfield_dex.clear();
         textfield_enemynum.clear();
         dropdown_die.getSelectionModel().select(0);
+        textfield_name.requestFocus();
     }
     
     private void exit(){
@@ -91,24 +92,28 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         else{
             baseHp = Integer.parseInt(textfield_hpbase.getText());
         }
+        
+        Combatant[] enemies = new Combatant[enemyNum];
 
         for(int i = 0; i < enemyNum; i++){
             name = textfield_name.getText() + " " + (i + 1);
             hitPoints = 0;
             init = 0;
             for(int j = 0; j < rollNum; j++){
-                hitPoints += (Math.random() * (dieMax - 1)) + 1;
+                hitPoints += (Math.random() * dieMax) + 1;
             }
             hitPoints += baseHp;
-            init += ((Math.random() * 19) + 1) + dex;
+            init += ((Math.random() * 20) + 1) + dex;
 
             enemy = new Combatant.Builder(name).dex(Integer.parseInt(textfield_dex.getText()))
                     .hp(hitPoints)
                     .init(init)
                     .build();
 
-            MainScreenController.fighterManager.addPlayers(enemy);
+            enemies[i] = enemy;
         }
+        
+        MainScreenController.fighterManager.addPlayers(enemies);
         
         exit();
     }

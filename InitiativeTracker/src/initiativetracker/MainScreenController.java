@@ -114,7 +114,7 @@ public class MainScreenController implements Initializable {
                 label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
-                checkbox_save.setSelected(selectedPlayer.getIsSaved());
+                checkbox_save.setSelected(selectedPlayer.isSaved());
                 
                 if(!noPlayers){
                     disableButtons(false);
@@ -277,7 +277,7 @@ public class MainScreenController implements Initializable {
         
         checkbox_save.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
-               selectedPlayer.setIsSaved(checkbox_save.isSelected());
+               selectedPlayer.setSaved(checkbox_save.isSelected());
            } 
         });
     }

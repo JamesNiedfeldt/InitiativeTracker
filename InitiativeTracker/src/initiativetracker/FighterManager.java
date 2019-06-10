@@ -48,19 +48,19 @@ public class FighterManager {
         
         for(Combatant combatant : toKill){
             index = players.indexOf(combatant);
-            if(!combatant.getIsSaved()){
+            if(!combatant.isSaved()){
                 if(index != -1 && players.size() == 1){
                     players.remove(combatant);
                     currentPlayer = 0;
                     break;
                 }
-                else if(index != -1 && players.get(index).getIsCurrentPlayer()){
+                else if(index != -1 && players.get(index).isCurrentPlayer()){
                     if(index >= players.size() - 1){
-                        players.get(0).setIsCurrentPlayer(true);
+                        players.get(0).setCurrentPlayer(true);
                         currentPlayer = 0;
                     }
                     else{
-                        players.get(index + 1).setIsCurrentPlayer(true);
+                        players.get(index + 1).setCurrentPlayer(true);
                     }
                 }
                 players.remove(combatant);
@@ -77,8 +77,8 @@ public class FighterManager {
     public void replacePlayers(Combatant playerOut, Combatant playerIn){
         int index = players.indexOf(playerOut);
         
-        if(playerOut.getIsCurrentPlayer()){
-            playerIn.setIsCurrentPlayer(true);
+        if(playerOut.isCurrentPlayer()){
+            playerIn.setCurrentPlayer(true);
         }
         if(index != -1){
             players.remove(playerOut);
@@ -88,13 +88,13 @@ public class FighterManager {
     
     public void nextTurn(){
         if(currentPlayer < players.size() - 1){
-            players.get(currentPlayer).setIsCurrentPlayer(false);
-            players.get(currentPlayer + 1).setIsCurrentPlayer(true);
+            players.get(currentPlayer).setCurrentPlayer(false);
+            players.get(currentPlayer + 1).setCurrentPlayer(true);
             currentPlayer++;
         }
         else{
-            players.get(players.size() - 1).setIsCurrentPlayer(false);
-            players.get(0).setIsCurrentPlayer(true);
+            players.get(players.size() - 1).setCurrentPlayer(false);
+            players.get(0).setCurrentPlayer(true);
             currentPlayer = 0;
         }
     }
@@ -111,9 +111,9 @@ public class FighterManager {
         Collections.sort(players);
         currentPlayer = 0;
         for(int i = 0; i < players.size(); i++){
-            players.get(i).setIsCurrentPlayer(false);
+            players.get(i).setCurrentPlayer(false);
         }
-        players.get(currentPlayer).setIsCurrentPlayer(true);
+        players.get(currentPlayer).setCurrentPlayer(true);
     }
     
     class HPManager{

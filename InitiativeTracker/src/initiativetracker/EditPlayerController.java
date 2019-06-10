@@ -46,6 +46,8 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_dex.setStyle("-fx-border-color: NULL;");
         textfield_init.setStyle("-fx-border-color: NULL;");
         
+        textfield_name.requestFocus();
+        
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
                 
@@ -87,6 +89,8 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_hp.setStyle("-fx-border-color: NULL;");
         textfield_dex.setStyle("-fx-border-color: NULL;");
         textfield_init.setStyle("-fx-border-color: NULL;");
+        
+        textfield_name.requestFocus();
         
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent e){
