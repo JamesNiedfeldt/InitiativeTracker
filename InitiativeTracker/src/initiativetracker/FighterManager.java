@@ -63,6 +63,9 @@ public class FighterManager {
                         players.get(index + 1).setCurrentPlayer(true);
                     }
                 }
+                else if(index != -1 && currentPlayer > index) {
+                    currentPlayer--;
+                }
                 players.remove(combatant);
             }
         } 
