@@ -20,7 +20,8 @@ public class BulkPlayerAddController extends Stage implements Initializable {
     @FXML private TextField textfield_hprolls;
     @FXML private TextField textfield_hpbase;
     @FXML private TextField textfield_dex;
-    @FXML private TextField textfield_enemynum;
+    @FXML private TextField textfield_ac;
+    @FXML private TextField textfield_monsternum;
     @FXML private ChoiceBox dropdown_die;
     @FXML private Button button_finish;
     @FXML private Button button_cancel;
@@ -38,6 +39,12 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
                try{
+                   textfield_name.setStyle("-fx-border-color: NULL;");
+                   textfield_hprolls.setStyle("-fx-border-color: NULL;");
+                   textfield_hpbase.setStyle("-fx-border-color: NULL;");
+                   textfield_dex.setStyle("-fx-border-color: NULL;");
+                   textfield_ac.setStyle("-fx-border-color: NULL;");
+                   textfield_monsternum.setStyle("-fx-border-color: NULL;");
                    checkFields();
                    finish();
                }
@@ -59,12 +66,14 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         textfield_hprolls.setStyle("-fx-border-color: NULL;");
         textfield_hpbase.setStyle("-fx-border-color: NULL;");
         textfield_dex.setStyle("-fx-border-color: NULL;");
-        textfield_enemynum.setStyle("-fx-border-color: NULL;");
+        textfield_ac.setStyle("-fx-border-color: NULL;");
+        textfield_monsternum.setStyle("-fx-border-color: NULL;");
         textfield_name.clear();
         textfield_hprolls.clear();
         textfield_hpbase.clear();
         textfield_dex.clear();
-        textfield_enemynum.clear();
+        textfield_ac.clear();
+        textfield_monsternum.clear();
         dropdown_die.getSelectionModel().select(0);
         textfield_name.requestFocus();
     }
@@ -79,8 +88,10 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         //This seems really dirty. Fix?
         int dieMax = ((Die)dropdown_die.getSelectionModel().getSelectedItem()).sides;
         int baseHp;
-        int enemyNum = Integer.parseInt(textfield_enemynum.getText());
+        int enemyNum = Integer.parseInt(textfield_monsternum.getText());
         int dex = Integer.parseInt(textfield_dex.getText());
+        int dexMod;
+        int ac = Integer.parseInt(textfield_ac.getText());
         int hitPoints;
         int init;
         String name;
@@ -93,6 +104,12 @@ public class BulkPlayerAddController extends Stage implements Initializable {
             baseHp = Integer.parseInt(textfield_hpbase.getText());
         }
         
+        dexMod = (dex - 10) / 2;
+        //This seems like an awful solution and should probably be fixed
+        if (dex % 2 == 1 && dexMod < 1) {
+            dexMod--;
+        }
+        
         Combatant[] enemies = new Combatant[enemyNum];
 
         for(int i = 0; i < enemyNum; i++){
@@ -103,11 +120,13 @@ public class BulkPlayerAddController extends Stage implements Initializable {
                 hitPoints += (Math.random() * dieMax) + 1;
             }
             hitPoints += baseHp;
-            init += ((Math.random() * 20) + 1) + dex;
+            init += ((Math.random() * 20) + 1) + dexMod;
 
-            enemy = new Combatant.Builder(name).dex(Integer.parseInt(textfield_dex.getText()))
+            enemy = new Combatant.Builder(name)
                     .hp(hitPoints)
+                    .dex(dex)
                     .init(init)
+                    .ac(ac)
                     .build();
 
             enemies[i] = enemy;
@@ -126,6 +145,10 @@ public class BulkPlayerAddController extends Stage implements Initializable {
                 textfield_name.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
+            if(textfield_ac.getText().isEmpty()){
+                textfield_ac.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
             if(textfield_hprolls.getText().isEmpty()){
                 textfield_hprolls.setStyle("-fx-border-color: RED;");
                 foundExc = true;
@@ -134,8 +157,8 @@ public class BulkPlayerAddController extends Stage implements Initializable {
                 textfield_dex.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_enemynum.getText().isEmpty()){
-                textfield_enemynum.setStyle("-fx-border-color: RED");
+            if(textfield_monsternum.getText().isEmpty()){
+                textfield_monsternum.setStyle("-fx-border-color: RED");
             }
             
             
@@ -156,6 +179,14 @@ public class BulkPlayerAddController extends Stage implements Initializable {
             }
             
             try{
+                Integer.parseInt(textfield_ac.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_ac.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            
+            try{
                 Integer.parseInt(textfield_dex.getText());
             }
             catch(NumberFormatException x){
@@ -163,10 +194,10 @@ public class BulkPlayerAddController extends Stage implements Initializable {
                 foundExc = true;
             }
             try{
-                Integer.parseInt(textfield_enemynum.getText());
+                Integer.parseInt(textfield_monsternum.getText());
             }
             catch(NumberFormatException x){
-                textfield_enemynum.setStyle("-fx-border-color: RED;");
+                textfield_monsternum.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             
@@ -179,8 +210,8 @@ public class BulkPlayerAddController extends Stage implements Initializable {
                 textfield_hpbase.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(Integer.parseInt(textfield_enemynum.getText()) <= 0){
-                textfield_enemynum.setStyle("-fx-border-color: RED;");
+            if(Integer.parseInt(textfield_monsternum.getText()) <= 0){
+                textfield_monsternum.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             

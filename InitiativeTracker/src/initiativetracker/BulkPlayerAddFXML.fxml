@@ -7,26 +7,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="344.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.BulkPlayerAddController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.BulkPlayerAddController">
    <children>
       <Separator layoutX="25.0" layoutY="56.0" prefHeight="0.0" prefWidth="400.0" />
-      <Label fx:id="label_title" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefWidth="450.0" text="Add Enemies" textAlignment="CENTER">
+      <Label fx:id="label_title" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefWidth="450.0" text="Add Bulk Monsters" textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <TextField fx:id="textfield_name" layoutX="85.0" layoutY="99.0" prefHeight="30.0" prefWidth="280.0" />
       <Label fx:id="label_name" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="85.0" layoutY="79.0" text="Name:" textAlignment="RIGHT" />
-      <Label fx:id="label_hp" layoutX="115.0" layoutY="142.0" prefHeight="20.0" text="HP:" />
-      <TextField fx:id="textfield_hprolls" layoutX="117.0" layoutY="162.0" prefHeight="30.0" prefWidth="63.0" promptText="# rolls" />
-      <Label fx:id="label_plushp" layoutX="249.0" layoutY="167.0" prefHeight="20.0" text="+" />
-      <ChoiceBox fx:id="dropdown_die" layoutX="180.0" layoutY="162.0" prefHeight="30.0" prefWidth="57.0" />
-      <TextField fx:id="textfield_hpbase" layoutX="272.0" layoutY="162.0" prefHeight="30.0" prefWidth="63.0" promptText="base" />
-      <TextField fx:id="textfield_dex" layoutX="141.0" layoutY="229.0" prefHeight="30.0" prefWidth="63.0" />
-      <TextField fx:id="textfield_enemynum" layoutX="249.0" layoutY="229.0" prefHeight="30.0" prefWidth="63.0" />
-      <Label fx:id="label_enemynum" layoutX="247.0" layoutY="209.0" prefHeight="20.0" text="Enemy #:" />
-      <Label fx:id="label_dex" layoutX="139.0" layoutY="209.0" prefHeight="20.0" text="Dex mod:" />
-      <Button fx:id="button_finish" layoutX="86.0" layoutY="291.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Add Enemies" />
-      <Button fx:id="button_cancel" layoutX="260.0" layoutY="291.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Cancel" />
+      <TextField fx:id="textfield_name" layoutX="85.0" layoutY="99.0" prefHeight="30.0" prefWidth="280.0" />
+      <Label fx:id="label_ac" layoutX="117.0" layoutY="142.0" prefHeight="20.0" text="Armor Class:" />
+      <TextField fx:id="textfield_ac" layoutX="117.0" layoutY="162.0" prefHeight="30.0" prefWidth="63.0" />
+      <Label fx:id="label_hp" layoutX="115.0" layoutY="205.0" prefHeight="20.0" text="HP:" />
+      <TextField fx:id="textfield_hprolls" layoutX="117.0" layoutY="225.0" prefHeight="30.0" prefWidth="63.0" promptText="# rolls" />
+      <ChoiceBox fx:id="dropdown_die" layoutX="180.0" layoutY="225.0" prefHeight="30.0" prefWidth="57.0" />
+      <TextField fx:id="textfield_hpbase" layoutX="272.0" layoutY="225.0" prefHeight="30.0" prefWidth="63.0" promptText="base" />
+      <Label fx:id="label_plushp" layoutX="249.0" layoutY="230.0" prefHeight="20.0" text="+" />
+      <Label fx:id="label_dex" layoutX="117.0" layoutY="268.0" prefHeight="20.0" text="Dex:" />
+      <TextField fx:id="textfield_dex" layoutX="117.0" layoutY="288.0" prefHeight="30.0" prefWidth="63.0" />
+      <Label fx:id="label_monsternum" layoutX="272.0" layoutY="268.0" prefHeight="20.0" text="Monster #:" />
+      <TextField fx:id="textfield_monsternum" layoutX="272.0" layoutY="288.0" prefHeight="30.0" prefWidth="63.0" />
+      <Button fx:id="button_finish" layoutX="86.0" layoutY="350.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="107.0" text="Add Monsters" />
+      <Button fx:id="button_cancel" layoutX="258.0" layoutY="350.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="107.0" text="Cancel" />
    </children>
 </AnchorPane>

@@ -17,6 +17,8 @@ public class EditPlayerController extends Stage implements Initializable {
     @FXML private Label label_title;
     @FXML private TextField textfield_name;
     @FXML private TextField textfield_hp;
+    @FXML private TextField textfield_temphp;
+    @FXML private TextField textfield_ac;
     @FXML private TextField textfield_dex;
     @FXML private TextField textfield_init;
     @FXML private Button button_finish;
@@ -39,10 +41,14 @@ public class EditPlayerController extends Stage implements Initializable {
         
         textfield_name.setText(combatant.getName());
         textfield_hp.setText(Integer.toString(combatant.getHitPoints()));
+        textfield_temphp.setText(Integer.toString(combatant.getTempHp()));
+        textfield_ac.setText(Integer.toString(combatant.getArmorClass()));
         textfield_dex.setText(Integer.toString(combatant.getDexterity()));
         textfield_init.setText(Integer.toString(combatant.getInitiative()));
         textfield_name.setStyle("-fx-border-color: NULL;");
         textfield_hp.setStyle("-fx-border-color: NULL;");
+        textfield_temphp.setStyle("-fx-border-color: NULL");
+        textfield_ac.setStyle("-fx-border-color: NULL");
         textfield_dex.setStyle("-fx-border-color: NULL;");
         textfield_init.setStyle("-fx-border-color: NULL;");
         
@@ -54,6 +60,8 @@ public class EditPlayerController extends Stage implements Initializable {
                 try{                   
                     textfield_name.setStyle("-fx-border-color: NULL;");
                     textfield_hp.setStyle("-fx-border-color: NULL;");
+                    textfield_temphp.setStyle("-fx-border-color: NULL");
+                    textfield_ac.setStyle("-fx-border-color: NULL");
                     textfield_dex.setStyle("-fx-border-color: NULL;");
                     textfield_init.setStyle("-fx-border-color: NULL;");
                     checkFields();
@@ -61,6 +69,8 @@ public class EditPlayerController extends Stage implements Initializable {
                     Combatant editedPlayer = new Combatant
                             .Builder(textfield_name.getText())
                             .hp(Integer.parseInt(textfield_hp.getText()))
+                            .tempHp(Integer.parseInt(textfield_temphp.getText()))
+                            .ac(Integer.parseInt(textfield_ac.getText()))
                             .dex(Integer.parseInt(textfield_dex.getText()))
                             .init(Integer.parseInt(textfield_init.getText()))
                             .build();
@@ -83,10 +93,14 @@ public class EditPlayerController extends Stage implements Initializable {
         
         textfield_name.clear();
         textfield_hp.clear();
+        textfield_temphp.setText("0");
+        textfield_ac.clear();
         textfield_dex.clear();
         textfield_init.clear();
         textfield_name.setStyle("-fx-border-color: NULL;");
         textfield_hp.setStyle("-fx-border-color: NULL;");
+        textfield_temphp.setStyle("-fx-border-color: NULL");
+        textfield_ac.setStyle("-fx-border-color: NULL");
         textfield_dex.setStyle("-fx-border-color: NULL;");
         textfield_init.setStyle("-fx-border-color: NULL;");
         
@@ -97,12 +111,16 @@ public class EditPlayerController extends Stage implements Initializable {
                 try{     
                     textfield_name.setStyle("-fx-border-color: NULL;");
                     textfield_hp.setStyle("-fx-border-color: NULL;");
+                    textfield_temphp.setStyle("-fx-border-color: NULL");
+                    textfield_ac.setStyle("-fx-border-color: NULL");
                     textfield_dex.setStyle("-fx-border-color: NULL;");
                     textfield_init.setStyle("-fx-border-color: NULL;");
                     checkFields();
                     Combatant newPlayer = new Combatant
                             .Builder(textfield_name.getText())
                             .hp(Integer.parseInt(textfield_hp.getText()))
+                            .tempHp(Integer.parseInt(textfield_temphp.getText()))
+                            .ac(Integer.parseInt(textfield_ac.getText()))
                             .dex(Integer.parseInt(textfield_dex.getText()))
                             .init(Integer.parseInt(textfield_init.getText()))
                             .build();
@@ -135,6 +153,14 @@ public class EditPlayerController extends Stage implements Initializable {
                 textfield_hp.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
+            if(textfield_temphp.getText().isEmpty()){
+                textfield_temphp.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            if(textfield_ac.getText().isEmpty()){
+                textfield_ac.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
             if(textfield_dex.getText().isEmpty()){
                 textfield_dex.setStyle("-fx-border-color: RED;");
                 foundExc = true;
@@ -150,6 +176,23 @@ public class EditPlayerController extends Stage implements Initializable {
             }
             catch(NumberFormatException x){
                 textfield_hp.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            try{
+                if(Integer.parseInt(textfield_temphp.getText()) < 0){
+                    textfield_temphp.setStyle("-fx-border-color: RED;");
+                    foundExc = true;
+                };
+            }
+            catch(NumberFormatException x){
+                textfield_temphp.setStyle("-fx-border-color: RED;");
+                foundExc = true;
+            }
+            try{
+                Integer.parseInt(textfield_ac.getText());
+            }
+            catch(NumberFormatException x){
+                textfield_ac.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             try{

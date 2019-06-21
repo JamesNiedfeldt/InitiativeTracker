@@ -56,6 +56,8 @@
             <Button fx:id="button_editplayer" layoutX="58.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
             <Button fx:id="button_removeplayer" layoutX="198.0" layoutY="355.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
             <CheckBox fx:id="checkbox_save" layoutX="58.0" layoutY="250.0" mnemonicParsing="false" text="Do not delete" />
+            <Label fx:id="label_acvalue" layoutX="213.0" layoutY="56.0" prefWidth="100.0" />
+            <Label fx:id="label_actitle" layoutX="188.0" layoutY="56.0" prefHeight="20.0" text="AC:" />
          </children>
       </AnchorPane>
    </right>
@@ -63,9 +65,9 @@
       <AnchorPane prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Separator layoutX="20.0" prefWidth="560.0" />
-            <Button fx:id="button_addplayers" layoutX="110.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Players..." />
-            <Button fx:id="button_addenemies" layoutX="245.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Add Enemies..." />
-            <Button fx:id="button_deleteall" layoutX="380.0" layoutY="15.0" mnemonicParsing="false" prefWidth="110.0" text="Delete All" />
+            <Button fx:id="button_addplayers" layoutX="90.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Add Players..." />
+            <Button fx:id="button_addenemies" layoutX="240.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Add Monsters..." />
+            <Button fx:id="button_deleteall" layoutX="390.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Delete All" />
          </children>
       </AnchorPane>
    </bottom>

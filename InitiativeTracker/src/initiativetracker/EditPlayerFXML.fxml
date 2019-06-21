@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="450.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="initiativetracker.EditPlayerController">
+<AnchorPane id="AnchorPane" prefHeight="350.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.EditPlayerController">
    <children>
       <Label fx:id="label_title" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefWidth="450.0" text="[title]" textAlignment="CENTER">
          <font>
@@ -18,13 +17,17 @@
       <Separator layoutX="25.0" layoutY="56.0" prefWidth="400.0" />
       <Label fx:id="label_name" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="85.0" layoutY="75.0" text="Name:" textAlignment="RIGHT" />
       <TextField fx:id="textfield_name" layoutX="85.0" layoutY="95.0" prefHeight="30.0" prefWidth="280.0" />
-      <TextField fx:id="textfield_hp" layoutX="87.0" layoutY="164.0" prefHeight="30.0" prefWidth="63.0" />
-      <Label fx:id="label_hp" layoutX="85.0" layoutY="144.0" prefHeight="20.0" text="HP:" />
-      <Label fx:id="label_dex" layoutX="193.0" layoutY="144.0" prefHeight="20.0" text="Dex:" />
-      <TextField fx:id="textfield_dex" layoutX="195.0" layoutY="164.0" prefHeight="30.0" prefWidth="63.0" />
-      <Label fx:id="label_init" layoutX="300.0" layoutY="144.0" prefHeight="20.0" text="Init:" />
-      <TextField fx:id="textfield_init" layoutX="302.0" layoutY="164.0" prefHeight="30.0" prefWidth="63.0" />
-      <Button fx:id="button_finish" layoutX="85.0" layoutY="228.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="[finish]" />
-      <Button fx:id="button_cancel" layoutX="259.0" layoutY="228.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Cancel" />
+      <Label fx:id="label_hp" layoutX="85.0" layoutY="141.0" prefHeight="20.0" text="HP:" />
+      <TextField fx:id="textfield_hp" layoutX="85.0" layoutY="161.0" prefHeight="30.0" prefWidth="63.0" />
+      <Label fx:id="label_temphp" layoutX="85.0" layoutY="197.0" prefHeight="20.0" text="Temp HP:" />
+      <TextField fx:id="textfield_temphp" layoutX="85.0" layoutY="217.0" prefHeight="30.0" prefWidth="63.0" />
+      <Label fx:id="label_ac" layoutX="194.0" layoutY="144.0" prefHeight="20.0" text="AC:" />
+      <TextField fx:id="textfield_ac" layoutX="194.0" layoutY="164.0" prefHeight="30.0" prefWidth="63.0" />
+      <Label fx:id="label_dex" layoutX="303.0" layoutY="144.0" prefHeight="20.0" text="Dex:" />
+      <TextField fx:id="textfield_dex" layoutX="303.0" layoutY="164.0" prefHeight="30.0" prefWidth="63.0" />
+      <Label fx:id="label_init" layoutX="303.0" layoutY="200.0" prefHeight="20.0" text="Init:" />
+      <TextField fx:id="textfield_init" layoutX="303.0" layoutY="221.0" prefHeight="30.0" prefWidth="63.0" />
+      <Button fx:id="button_finish" layoutX="87.0" layoutY="280.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="[finish]" />
+      <Button fx:id="button_cancel" layoutX="261.0" layoutY="280.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Cancel" />
    </children>
 </AnchorPane>

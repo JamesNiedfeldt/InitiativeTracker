@@ -41,6 +41,7 @@ public class MainScreenController implements Initializable {
     @FXML private Label label_playername;
     @FXML private Label label_hpvalue;
     @FXML private TextField textfield_changehp;
+    @FXML private Label label_acvalue;
     @FXML private Button button_gethit;
     @FXML private Button button_heal;
     @FXML private ListView<String> listview_conditions;
@@ -99,7 +100,7 @@ public class MainScreenController implements Initializable {
         column_currentturn.setSortable(false);
         column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         column_name.setSortable(false);
-        column_hp.setCellValueFactory(new PropertyValueFactory<>("hitPoints"));
+        column_hp.setCellValueFactory(new PropertyValueFactory<>("totalHp"));
         column_hp.setSortable(false);
         
         fighterManager.addToTable(tableview_players);
@@ -111,7 +112,9 @@ public class MainScreenController implements Initializable {
                 selectedPlayer = (Combatant)tableview_players.getSelectionModel().selectedItemProperty().get();
                 
                 label_playername.setText(selectedPlayer.getName());
-                label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()));
+                label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()
+                    + " + " + String.valueOf(selectedPlayer.getTempHp())));
+                label_acvalue.setText(String.valueOf(selectedPlayer.getArmorClass()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
                 checkbox_save.setSelected(selectedPlayer.isSaved());
@@ -125,6 +128,7 @@ public class MainScreenController implements Initializable {
                 
                 label_playername.setText("No player selected");
                 label_hpvalue.setText("");
+                label_acvalue.setText("");
                 listProperty.set(null);
                 listview_conditions.itemsProperty().bind(listProperty);
                 
@@ -178,7 +182,8 @@ public class MainScreenController implements Initializable {
                             .getsHitFor(damage);
 
                     label_hpvalue
-                            .setText(String.valueOf(selectedPlayer.getHitPoints()));
+                            .setText(String.valueOf(selectedPlayer.getHitPoints()
+                             + " + " + String.valueOf(selectedPlayer.getTempHp())));
                     tableview_players.refresh();
                 }
                 catch(NumberFormatException x){
@@ -202,7 +207,8 @@ public class MainScreenController implements Initializable {
                             .healsFor(damage);
 
                     label_hpvalue
-                            .setText(String.valueOf(selectedPlayer.getHitPoints()));
+                            .setText(String.valueOf(selectedPlayer.getHitPoints()
+                             + " + " + String.valueOf(selectedPlayer.getTempHp())));
                     tableview_players.refresh();
                 }
                 catch(NumberFormatException x){
@@ -314,7 +320,8 @@ public class MainScreenController implements Initializable {
                Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Delete All");
                 alert.setHeaderText(String.format(
-                        "Are you sure you want to delete all fighters?"));
+                        "Are you sure you want to delete all fighters?\n\n" + 
+                        "You can select \"Do not delete\" on fighters you want to keep."));
                 
                 Optional<ButtonType> result = alert.showAndWait();
                 if(result.get() == ButtonType.OK){

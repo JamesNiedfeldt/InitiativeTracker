@@ -5,15 +5,17 @@ import javafx.collections.FXCollections;
 
 public class Combatant implements Comparable{
     private String name;
-    private int hitPoints, dexterity, initiative;
+    private int hitPoints, tempHp, dexterity, initiative, armorClass;
     private ObservableList<String> conditions;
     private boolean currentPlayer, saved;
     
     private Combatant(Builder builder){
         name = builder.name;
         hitPoints = builder.hitPoints;
+        tempHp = builder.tempHp;
         dexterity = builder.dexterity;
         initiative = builder.initiative;
+        armorClass = builder.armorClass;
         conditions = FXCollections.observableArrayList();
         currentPlayer = false;
         saved = false;
@@ -31,11 +33,17 @@ public class Combatant implements Comparable{
     public void setHitPoints(int inHp){ 
         hitPoints = inHp; 
     }
+    public void setTempHp(int inHp) {
+        tempHp = inHp;
+    }
     public void setDexterity(int inDex){ 
         dexterity = inDex; 
     }
     public void setInitiative(int inInitiative){ 
         initiative = inInitiative; 
+    }
+    public void setArmorClass(int inAc) {
+        armorClass = inAc;
     }
     public void setCurrentPlayer(boolean bool){
         currentPlayer = bool;
@@ -51,11 +59,20 @@ public class Combatant implements Comparable{
     public int getHitPoints(){ 
         return hitPoints; 
     }
+    public int getTempHp() {
+        return tempHp;
+    }
+    public int getTotalHp() {
+        return hitPoints + tempHp;
+    }
     public int getDexterity(){ 
         return dexterity; 
     }
     public int getInitiative(){ 
         return initiative; 
+    }
+    public int getArmorClass() {
+        return armorClass;
     }
     public ObservableList<String> getConditions(){
         ObservableList<String> toReturn = conditions;
@@ -79,7 +96,16 @@ public class Combatant implements Comparable{
     
     //Other methods  
     public void modifyHitPoints(int modifier){
-        hitPoints += modifier;
+        if(modifier < 0 && tempHp > 0) {
+            tempHp += modifier;
+            if(tempHp < 0){
+                hitPoints += tempHp;
+                tempHp = 0;
+            }
+        } 
+        else {
+          hitPoints += modifier;  
+        }
     }
     
     public void addCondition(String condition){
@@ -129,17 +155,24 @@ public class Combatant implements Comparable{
     //Builder subclass
     static class Builder{
         private String name;
-        private int hitPoints, dexterity, initiative;
+        private int hitPoints, tempHp, dexterity, initiative, armorClass;
         
         Builder(String inName){
             name = inName;
             hitPoints = 0;
+            tempHp = 0;
             dexterity = 0;
             initiative = 0;
+            armorClass = 0;
         }
         
         public Builder hp(int inHp){
             hitPoints = inHp;
+            return this;
+        }
+        
+        public Builder tempHp(int inHp){
+            tempHp = inHp;
             return this;
         }
         
@@ -150,6 +183,11 @@ public class Combatant implements Comparable{
         
         public Builder init(int inInit){
             initiative = inInit;
+            return this;
+        }
+        
+        public Builder ac(int inAc) {
+            armorClass = inAc;
             return this;
         }
         
