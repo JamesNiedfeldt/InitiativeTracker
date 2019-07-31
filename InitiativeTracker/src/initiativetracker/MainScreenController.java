@@ -110,6 +110,10 @@ public class MainScreenController implements Initializable {
         button_load.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 fileManager.promptLoad();
+                
+                if (fighterManager.getPlayerNumber() > 0) {
+                    noPlayers = false;
+                }
             }
         });
     }
