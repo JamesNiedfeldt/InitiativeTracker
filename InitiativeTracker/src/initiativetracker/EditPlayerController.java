@@ -28,14 +28,14 @@ public class EditPlayerController extends Stage implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         this.initModality(Modality.APPLICATION_MODAL);
         
-        button_cancel.setOnAction(new EventHandler<ActionEvent>(){
+        button_cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e){
                 exit();
             }
         });
     }   
     
-    public void initEditPlayer(Combatant combatant){
+    public void initEditPlayer(Combatant combatant) {
         label_title.setText("Edit Player");
         button_finish.setText("Finish");
         
@@ -54,10 +54,10 @@ public class EditPlayerController extends Stage implements Initializable {
         
         textfield_name.requestFocus();
         
-        button_finish.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent e){
+        button_finish.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
                 
-                try{                   
+                try {                   
                     textfield_name.setStyle("-fx-border-color: NULL;");
                     textfield_hp.setStyle("-fx-border-color: NULL;");
                     textfield_temphp.setStyle("-fx-border-color: NULL");
@@ -79,15 +79,14 @@ public class EditPlayerController extends Stage implements Initializable {
                             .replacePlayers(combatant, editedPlayer);
                     
                     exit();
-                }
-                catch(Exception x){
+                } catch(Exception x) {
 
                 }  
             }
         });
     }
     
-    public void initNewPlayer(){
+    public void initNewPlayer() {
         label_title.setText("Add Player");
         button_finish.setText("Add Player");
         
@@ -106,8 +105,8 @@ public class EditPlayerController extends Stage implements Initializable {
         
         textfield_name.requestFocus();
         
-        button_finish.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent e){
+        button_finish.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
                 try{     
                     textfield_name.setStyle("-fx-border-color: NULL;");
                     textfield_hp.setStyle("-fx-border-color: NULL;");
@@ -128,93 +127,86 @@ public class EditPlayerController extends Stage implements Initializable {
                     MainScreenController.fighterManager.addPlayers(newPlayer);
                     
                     exit();
-                }
-                catch(Exception x){
+                } catch(Exception x) {
                     
                 }                
             }
         });
     }
     
-    private void exit(){
+    private void exit() {
         Stage stage = (Stage) this.getScene().getWindow();
         stage.close();
     }
     
-    private void checkFields(){
+    private void checkFields() {
         boolean foundExc = false;
         
         try{
-            if(textfield_name.getText().isEmpty()){
+            if (textfield_name.getText().isEmpty()) {
                 textfield_name.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_hp.getText().isEmpty()){
+            if (textfield_hp.getText().isEmpty()) {
                 textfield_hp.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_temphp.getText().isEmpty()){
+            if (textfield_temphp.getText().isEmpty()) {
                 textfield_temphp.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_ac.getText().isEmpty()){
+            if (textfield_ac.getText().isEmpty()) {
                 textfield_ac.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_dex.getText().isEmpty()){
+            if (textfield_dex.getText().isEmpty()) {
                 textfield_dex.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_init.getText().isEmpty()){
+            if (textfield_init.getText().isEmpty()) {
                 textfield_init.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             
             
-            try{
+            try {
                 Integer.parseInt(textfield_hp.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_hp.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            try{
+            try {
                 if(Integer.parseInt(textfield_temphp.getText()) < 0){
                     textfield_temphp.setStyle("-fx-border-color: RED;");
                     foundExc = true;
                 };
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_temphp.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            try{
+            try {
                 Integer.parseInt(textfield_ac.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_ac.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            try{
+            try {
                 Integer.parseInt(textfield_dex.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_dex.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            try{
+            try {
                 Integer.parseInt(textfield_init.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_init.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             
-            if(foundExc){
+            if(foundExc) {
                 throw new RuntimeException();
             }
-        }
-        catch(Exception x){
+        } catch(Exception x) {
             throw x;
         }
     }

@@ -9,7 +9,7 @@ public class Combatant implements Comparable{
     private ObservableList<String> conditions;
     private boolean currentPlayer, saved;
     
-    private Combatant(Builder builder){
+    private Combatant(Builder builder) {
         name = builder.name;
         hitPoints = builder.hitPoints;
         tempHp = builder.tempHp;
@@ -22,41 +22,40 @@ public class Combatant implements Comparable{
     }
     
     //Setters
-    public void setName(String inName){ 
-        if(inName == "" || inName == null){
+    public void setName(String inName) { 
+        if(inName == "" || inName == null) {
             name = "Default";
-        }
-        else{
+        } else {
             name = inName;
         }
     }
-    public void setHitPoints(int inHp){ 
+    public void setHitPoints(int inHp) { 
         hitPoints = inHp; 
     }
     public void setTempHp(int inHp) {
         tempHp = inHp;
     }
-    public void setDexterity(int inDex){ 
+    public void setDexterity(int inDex) { 
         dexterity = inDex; 
     }
-    public void setInitiative(int inInitiative){ 
+    public void setInitiative(int inInitiative) { 
         initiative = inInitiative; 
     }
     public void setArmorClass(int inAc) {
         armorClass = inAc;
     }
-    public void setCurrentPlayer(boolean bool){
+    public void setCurrentPlayer(boolean bool) {
         currentPlayer = bool;
     }
-    public void setSaved(boolean bool){
+    public void setSaved(boolean bool) {
         saved = bool;
     }
     
     //Getters
-    public String getName(){ 
+    public String getName() { 
         return name; 
     }
-    public int getHitPoints(){ 
+    public int getHitPoints() { 
         return hitPoints; 
     }
     public int getTempHp() {
@@ -65,64 +64,61 @@ public class Combatant implements Comparable{
     public int getTotalHp() {
         return hitPoints + tempHp;
     }
-    public int getDexterity(){ 
+    public int getDexterity() { 
         return dexterity; 
     }
-    public int getInitiative(){ 
+    public int getInitiative() { 
         return initiative; 
     }
     public int getArmorClass() {
         return armorClass;
     }
-    public ObservableList<String> getConditions(){
+    public ObservableList<String> getConditions() {
         ObservableList<String> toReturn = conditions;
         FXCollections.sort(toReturn);
         return toReturn;
     }
-    public boolean isCurrentPlayer(){
+    public boolean isCurrentPlayer() {
         return currentPlayer;
     }
-    public String getCurrentPlayerIndicator(){
-        if(currentPlayer){
+    public String getCurrentPlayerIndicator() {
+        if (currentPlayer) {
             return Character.toString((char)0x23E9);
-        }
-        else{
+        } else {
             return "";
         }
     }
-    public boolean isSaved(){
+    public boolean isSaved() {
         return saved;
     }
     
     //Other methods  
-    public void modifyHitPoints(int modifier){
-        if(modifier < 0 && tempHp > 0) {
+    public void modifyHitPoints(int modifier) {
+        if (modifier < 0 && tempHp > 0) {
             tempHp += modifier;
-            if(tempHp < 0){
+            if (tempHp < 0){
                 hitPoints += tempHp;
                 tempHp = 0;
             }
-        } 
-        else {
+        } else {
           hitPoints += modifier;  
         }
     }
     
-    public void addCondition(String condition){
-        if(conditions.contains(condition)){
+    public void addCondition(String condition) {
+        if (conditions.contains(condition)) {
             //TODO: something useful
             System.out.println(name+" already has condition "+condition);
-        }
-        else{
+        } else {
             conditions.add(condition);
         }
     }
     
-    public void removeCondition(String condition){
+    public void removeCondition(String condition) {
         conditions.remove(condition);
     }
     
-    public void print(){
+    public void print() {
         System.out.println(name);
         System.out.println("HP: "+hitPoints);
         System.out.println("Dexterity: "+dexterity);
@@ -131,33 +127,29 @@ public class Combatant implements Comparable{
     }
     
     @Override
-    public int compareTo(Object o){
+    public int compareTo(Object o) {
         Combatant player = (Combatant)o;
-        if(initiative > player.initiative){
+        if (initiative > player.initiative) {
             return -1;
-        }
-        else if(initiative == player.initiative){
-            if(dexterity > player.dexterity){
+        } else if (initiative == player.initiative) {
+            if (dexterity > player.dexterity) {
                 return -1;
-            }
-            else if(dexterity < player.dexterity){
+            } else if(dexterity < player.dexterity) {
                 return 1;
-            }
-            else{
+            } else {
                 return 0;
             }
-        }
-        else{
+        } else {
             return 1;
         }
     }    
     
     //Builder subclass
-    static class Builder{
+    static class Builder {
         private String name;
         private int hitPoints, tempHp, dexterity, initiative, armorClass;
         
-        Builder(String inName){
+        Builder(String inName) {
             name = inName;
             hitPoints = 0;
             tempHp = 0;
@@ -166,22 +158,22 @@ public class Combatant implements Comparable{
             armorClass = 0;
         }
         
-        public Builder hp(int inHp){
+        public Builder hp(int inHp) {
             hitPoints = inHp;
             return this;
         }
         
-        public Builder tempHp(int inHp){
+        public Builder tempHp(int inHp) {
             tempHp = inHp;
             return this;
         }
         
-        public Builder dex(int inDex){
+        public Builder dex(int inDex) {
             dexterity = inDex;
             return this;
         }
         
-        public Builder init(int inInit){
+        public Builder init(int inInit) {
             initiative = inInit;
             return this;
         }
@@ -191,7 +183,7 @@ public class Combatant implements Comparable{
             return this;
         }
         
-        public Combatant build(){
+        public Combatant build() {
             return new Combatant(this);
         }
     }

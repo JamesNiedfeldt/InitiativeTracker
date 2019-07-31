@@ -29,7 +29,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<Die> dice = FXCollections.observableArrayList();
-        for(Die die : Die.values()){
+        for (Die die : Die.values()) {
             dice.add(die);
         }
         dropdown_die.getItems().addAll(dice);
@@ -38,7 +38,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
-               try{
+               try {
                    textfield_name.setStyle("-fx-border-color: NULL;");
                    textfield_hprolls.setStyle("-fx-border-color: NULL;");
                    textfield_hpbase.setStyle("-fx-border-color: NULL;");
@@ -47,8 +47,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
                    textfield_monsternum.setStyle("-fx-border-color: NULL;");
                    checkFields();
                    finish();
-               }
-               catch(Exception x){
+               } catch (Exception x){
                    
                }
            } 
@@ -61,7 +60,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         });
     }    
     
-    public void clear(){
+    public void clear() {
         textfield_name.setStyle("-fx-border-color: NULL;");
         textfield_hprolls.setStyle("-fx-border-color: NULL;");
         textfield_hpbase.setStyle("-fx-border-color: NULL;");
@@ -78,12 +77,12 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         textfield_name.requestFocus();
     }
     
-    private void exit(){
+    private void exit() {
         Stage stage = (Stage) this.getScene().getWindow();
         stage.close();
     }
     
-    private void finish(){
+    private void finish() {
         int rollNum = Integer.parseInt(textfield_hprolls.getText());
         //This seems really dirty. Fix?
         int dieMax = ((Die)dropdown_die.getSelectionModel().getSelectedItem()).sides;
@@ -97,10 +96,9 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         String name;
         Combatant enemy;
         
-        if(textfield_hpbase.getText().isEmpty()){
+        if (textfield_hpbase.getText().isEmpty()) {
             baseHp = 0;
-        }
-        else{
+        } else {
             baseHp = Integer.parseInt(textfield_hpbase.getText());
         }
         
@@ -112,11 +110,11 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         
         Combatant[] enemies = new Combatant[enemyNum];
 
-        for(int i = 0; i < enemyNum; i++){
+        for (int i = 0; i < enemyNum; i++) {
             name = textfield_name.getText() + " " + (i + 1);
             hitPoints = 0;
             init = 0;
-            for(int j = 0; j < rollNum; j++){
+            for (int j = 0; j < rollNum; j++) {
                 hitPoints += (Math.random() * dieMax) + 1;
             }
             hitPoints += baseHp;
@@ -137,94 +135,88 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         exit();
     }
     
-    private void checkFields(){
+    private void checkFields() {
         boolean foundExc = false;
         
         try{
-            if(textfield_name.getText().isEmpty()){
+            if (textfield_name.getText().isEmpty()) {
                 textfield_name.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_ac.getText().isEmpty()){
+            if (textfield_ac.getText().isEmpty()) {
                 textfield_ac.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_hprolls.getText().isEmpty()){
+            if (textfield_hprolls.getText().isEmpty()) {
                 textfield_hprolls.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_dex.getText().isEmpty()){
+            if (textfield_dex.getText().isEmpty()) {
                 textfield_dex.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(textfield_monsternum.getText().isEmpty()){
+            if (textfield_monsternum.getText().isEmpty()) {
                 textfield_monsternum.setStyle("-fx-border-color: RED");
             }
             
             
-            try{
+            try {
                 Integer.parseInt(textfield_hprolls.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_hprolls.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(!textfield_hpbase.getText().isEmpty()){
-                try{
+            if (!textfield_hpbase.getText().isEmpty()){
+                try {
                     Integer.parseInt(textfield_hpbase.getText());
-                }
-                catch(NumberFormatException x){
+                } catch(NumberFormatException x) {
                     textfield_hpbase.setStyle("-fx-border-color: RED;");
                 }
             }
             
-            try{
+            try {
                 Integer.parseInt(textfield_ac.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_ac.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             
-            try{
+            try {
                 Integer.parseInt(textfield_dex.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_dex.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            try{
+            try {
                 Integer.parseInt(textfield_monsternum.getText());
-            }
-            catch(NumberFormatException x){
+            } catch(NumberFormatException x) {
                 textfield_monsternum.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             
-            if(Integer.parseInt(textfield_hprolls.getText()) <= 0){
+            if (Integer.parseInt(textfield_hprolls.getText()) <= 0){
                 textfield_hprolls.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(!textfield_hpbase.getText().isEmpty() && 
+            if (!textfield_hpbase.getText().isEmpty() && 
                     Integer.parseInt(textfield_hpbase.getText()) < 0){
                 textfield_hpbase.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
-            if(Integer.parseInt(textfield_monsternum.getText()) <= 0){
+            if (Integer.parseInt(textfield_monsternum.getText()) <= 0){
                 textfield_monsternum.setStyle("-fx-border-color: RED;");
                 foundExc = true;
             }
             
-            if(foundExc){
+            if (foundExc){
                 throw new RuntimeException();
             }
-        }
-        catch(Exception x){
+        } catch(Exception x) {
             throw x;
         }
     }
     
-    private enum Die{
+    private enum Die {
         d4("d4", 4),
         d6("d6", 6),
         d8("d8", 8),
@@ -235,7 +227,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         private String name;
         private int sides;
         
-        Die(String name, int sides){
+        Die(String name, int sides) {
             this.name = name;
             this.sides = sides;
         }
