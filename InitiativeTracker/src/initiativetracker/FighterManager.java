@@ -74,6 +74,16 @@ public class FighterManager {
         killPlayers(toKill);
     }
     
+    /** Completely kills ALL players regardless of save status -- only to be used
+     * when loading a new encounter state 
+     */
+    public void reset() {
+        for (Combatant fighter : players) {
+            fighter.setSaved(false);
+        }
+        killAllPlayers();
+    }
+    
     public void replacePlayers(Combatant playerOut, Combatant playerIn) {
         int index = players.indexOf(playerOut);
         

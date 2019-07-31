@@ -120,7 +120,7 @@ public class Combatant implements Comparable{
     
     public void print() {
         System.out.println(name);
-        System.out.println("HP: "+hitPoints);
+        System.out.println("HP: "+hitPoints+" + "+tempHp);
         System.out.println("Dexterity: "+dexterity);
         System.out.println("Initiative: "+initiative);
         System.out.println("Conditions: "+conditions);
@@ -130,12 +130,14 @@ public class Combatant implements Comparable{
     public String formatForFile() {
         String str;
         
-        str = name + ',' + hitPoints + ',' + dexterity + ',' +
-                initiative + ',' + armorClass;
+        str = name + ',' + hitPoints + ',' + tempHp + ',' + dexterity + 
+                ',' + initiative + ',' + armorClass + ',' + saved;
         
         for (String cond : conditions) {
             str = str + ',' + cond;
         }
+        
+        str = str + "\n";
         
         return str;
     }
