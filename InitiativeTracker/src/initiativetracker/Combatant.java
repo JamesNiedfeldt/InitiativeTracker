@@ -124,6 +124,20 @@ public class Combatant implements Comparable{
         System.out.println("Dexterity: "+dexterity);
         System.out.println("Initiative: "+initiative);
         System.out.println("Conditions: "+conditions);
+        System.out.println("AC: "+armorClass);
+    }
+    
+    public String formatForFile() {
+        String str;
+        
+        str = name + ',' + hitPoints + ',' + dexterity + ',' +
+                initiative + ',' + armorClass;
+        
+        for (String cond : conditions) {
+            str = str + ',' + cond;
+        }
+        
+        return str;
     }
     
     @Override

@@ -115,6 +115,16 @@ public class FighterManager {
         players.get(currentPlayer).setCurrentPlayer(true);
     }
     
+    public String[] formatForFile() {
+        String[] formatted = new String[players.size()];
+        
+        for (int i = 0; i < formatted.length; i++) {
+            formatted[i] = players.get(i).formatForFile();
+        }
+        
+        return formatted;
+    }
+    
     class HPManager {
         private Combatant combatant;
         private boolean inFight;

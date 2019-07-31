@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -8,13 +9,6 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.MainScreenController">
-   <top>
-      <Label fx:id="label_title" text="Initiative Tracker" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
-   </top>
    <left>
       <AnchorPane fx:id="anchorpane_turnorder" prefHeight="364.0" prefWidth="250.0" BorderPane.alignment="CENTER">
          <children>
@@ -71,4 +65,12 @@
          </children>
       </AnchorPane>
    </bottom>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button fx:id="button_save" mnemonicParsing="false" text="Save..." />
+            <Button fx:id="button_load" mnemonicParsing="false" text="Load..." />
+        </items>
+      </ToolBar>
+   </top>
 </BorderPane>

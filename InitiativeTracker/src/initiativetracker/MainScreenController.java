@@ -31,6 +31,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MainScreenController implements Initializable {
     
+    @FXML private Button button_save;
+    @FXML private Button button_load;
+    
     @FXML private TableView tableview_players;
     @FXML private TableColumn column_name;
     @FXML private TableColumn column_hp;
@@ -56,6 +59,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_deleteall;
     
     public static FighterManager fighterManager;
+    public static FileManager fileManager;
     private Combatant selectedPlayer;
     private SimpleListProperty listProperty;
     private boolean noPlayers = true;
@@ -72,6 +76,7 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fighterManager = new FighterManager();
+        fileManager = new FileManager();
         listProperty = new SimpleListProperty();
         
         editPlayerLoader = new FXMLLoader();
@@ -89,10 +94,25 @@ public class MainScreenController implements Initializable {
         
         disableButtons(true);
         
+        setupTop();
         setupLeft();
         setupRight();
         setupBottom();
     }  
+    
+    private void setupTop() {
+        button_save.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                fileManager.promptSave();
+            }
+        });
+        
+        button_load.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                fileManager.promptLoad();
+            }
+        });
+    }
     
     private void setupLeft() {
         column_currentturn.setCellValueFactory(new PropertyValueFactory<>("currentPlayerIndicator"));
