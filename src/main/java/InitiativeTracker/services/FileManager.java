@@ -1,4 +1,4 @@
-package initiativetracker;
+package InitiativeTracker.services;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,16 +7,24 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javafx.stage.FileChooser;
+import InitiativeTracker.classes.Combatant;
 
 public class FileManager {
     private final FileChooser fc = new FileChooser();
     
-    public FileManager() {
+    //Singleton
+    private static FileManager instance = new FileManager();
+    
+    private FileManager() {
         fc.getExtensionFilters().addAll(
           new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
         fc.setInitialFileName("Encounter.csv");
         fc.setInitialDirectory(new File(System.getProperty("user.dir")));
     } 
+    
+    public static FileManager getInstance() {
+        return instance;
+    }
     
     public void promptSave() {
         fc.setTitle("Save Battle File");
@@ -30,7 +38,7 @@ public class FileManager {
         fc.setTitle("Load Battle File");
         File file = fc.showOpenDialog(null);
         if (file != null) {
-            MainScreenController.fighterManager.reset();
+            FighterManager.getInstance().reset();
             
             loadPlayers(file);
         }
@@ -44,7 +52,7 @@ public class FileManager {
             fileWriter = new FileWriter(file);
             writer = new BufferedWriter(fileWriter);
             
-            for (String fighter : MainScreenController.fighterManager.formatForFile()) {
+            for (String fighter : FighterManager.getInstance().formatForFile()) {
                 writer.write(fighter);
             }
             
@@ -69,7 +77,7 @@ public class FileManager {
                 fighter = parseLine(line);
                 
                 if (fighter != null) {
-                    MainScreenController.fighterManager.addPlayers(fighter);
+                    FighterManager.getInstance().addPlayers(fighter);
                 }
                 
                 line = reader.readLine();

@@ -1,4 +1,4 @@
-package initiativetracker;
+package InitiativeTracker.classes;
 
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -161,11 +161,11 @@ public class Combatant implements Comparable{
     }    
     
     //Builder subclass
-    static class Builder {
+    public static class Builder {
         private String name;
         private int hitPoints, tempHp, dexterity, initiative, armorClass;
         
-        Builder(String inName) {
+        public Builder(String inName) {
             name = inName;
             hitPoints = 0;
             tempHp = 0;

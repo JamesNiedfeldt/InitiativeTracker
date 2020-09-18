@@ -1,10 +1,11 @@
-package initiativetracker;
+package InitiativeTracker.services;
 
 import java.util.Collections;
 import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
+import InitiativeTracker.classes.Combatant;
 
 public class FighterManager {
     private static ObservableList<Combatant> players;
@@ -12,11 +13,18 @@ public class FighterManager {
     private static ConditionManager conditionManager;
     private static int currentPlayer;
     
-    FighterManager() {
+    //Singleton
+    private static FighterManager instance = new FighterManager();
+    
+    private FighterManager() {
         players = FXCollections.observableArrayList();
         hpManager = new HPManager();
         conditionManager = new ConditionManager();
         currentPlayer = 0;
+    }
+    
+    public static FighterManager getInstance() {
+        return instance;
     }
     
     public HPManager getHpManager() {
@@ -135,7 +143,7 @@ public class FighterManager {
         return formatted;
     }
     
-    class HPManager {
+    public class HPManager {
         private Combatant combatant;
         private boolean inFight;
         
@@ -176,7 +184,7 @@ public class FighterManager {
         }   
     }
     
-    class ConditionManager {
+    public class ConditionManager {
         private Combatant combatant;
         private boolean inFight;
         

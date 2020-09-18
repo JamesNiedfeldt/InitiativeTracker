@@ -1,4 +1,4 @@
-package initiativetracker;
+package InitiativeTracker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,8 @@ public class InitiativeTracker extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainScreenFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScreenFXML.fxml"));
+        Parent root = loader.load();
         
         Scene scene = new Scene(root);
         

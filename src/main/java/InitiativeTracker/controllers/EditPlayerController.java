@@ -1,4 +1,4 @@
-package initiativetracker;
+package InitiativeTracker.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import InitiativeTracker.classes.Combatant;
+import InitiativeTracker.services.FighterManager;
 
 public class EditPlayerController extends Stage implements Initializable {
 
@@ -75,7 +77,7 @@ public class EditPlayerController extends Stage implements Initializable {
                             .init(Integer.parseInt(textfield_init.getText()))
                             .build();
                             
-                    MainScreenController.fighterManager
+                    FighterManager.getInstance()
                             .replacePlayers(combatant, editedPlayer);
                     
                     exit();
@@ -124,7 +126,7 @@ public class EditPlayerController extends Stage implements Initializable {
                             .init(Integer.parseInt(textfield_init.getText()))
                             .build();
                             
-                    MainScreenController.fighterManager.addPlayers(newPlayer);
+                    FighterManager.getInstance().addPlayers(newPlayer);
                     
                     exit();
                 } catch(Exception x) {

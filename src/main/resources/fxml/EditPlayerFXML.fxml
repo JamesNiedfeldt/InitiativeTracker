@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="350.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="initiativetracker.EditPlayerController">
+<AnchorPane id="AnchorPane" prefHeight="350.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InitiativeTracker.controllers.EditPlayerController">
    <children>
       <Label fx:id="label_title" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefWidth="450.0" text="[title]" textAlignment="CENTER">
          <font>

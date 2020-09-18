@@ -1,4 +1,4 @@
-package initiativetracker;
+package InitiativeTracker.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +28,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import InitiativeTracker.classes.Combatant;
+import InitiativeTracker.services.FighterManager;
+import InitiativeTracker.services.FileManager;
 
 public class MainScreenController implements Initializable {
     
@@ -58,8 +61,6 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_addenemies;
     @FXML private Button button_deleteall;
     
-    public static FighterManager fighterManager;
-    public static FileManager fileManager;
     private Combatant selectedPlayer;
     private SimpleListProperty listProperty;
     private boolean noPlayers = true;
@@ -75,14 +76,12 @@ public class MainScreenController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fighterManager = new FighterManager();
-        fileManager = new FileManager();
         listProperty = new SimpleListProperty();
         
         editPlayerLoader = new FXMLLoader();
         bulkAddLoader = new FXMLLoader();
-        editPlayerLoader.setLocation(getClass().getResource("EditPlayerFXML.fxml"));
-        bulkAddLoader.setLocation(getClass().getResource("BulkPlayerAddFXML.fxml"));
+        editPlayerLoader.setLocation(getClass().getResource("/fxml/EditPlayerFXML.fxml"));
+        bulkAddLoader.setLocation(getClass().getResource("/fxml/BulkPlayerAddFXML.fxml"));
         try {
             editPlayerRoot = editPlayerLoader.load();
             editPlayerScene = new Scene(editPlayerRoot);
@@ -103,15 +102,15 @@ public class MainScreenController implements Initializable {
     private void setupTop() {
         button_save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                fileManager.promptSave();
+                FileManager.getInstance().promptSave();
             }
         });
         
         button_load.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                fileManager.promptLoad();
+                FileManager.getInstance().promptLoad();
                 
-                if (fighterManager.getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerNumber() > 0) {
                     noPlayers = false;
                 }
             }
@@ -126,7 +125,7 @@ public class MainScreenController implements Initializable {
         column_hp.setCellValueFactory(new PropertyValueFactory<>("totalHp"));
         column_hp.setSortable(false);
         
-        fighterManager.addToTable(tableview_players);
+        FighterManager.getInstance().addToTable(tableview_players);
         tableview_players.getColumns().clear();
         tableview_players.getColumns().addAll(column_currentturn,column_name,column_hp);
               
@@ -160,21 +159,23 @@ public class MainScreenController implements Initializable {
         
         button_nextturn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                if (fighterManager.getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerNumber() > 0) {
                    textfield_changehp.clear();
-                   fighterManager.nextTurn();
+                   FighterManager.getInstance().nextTurn();
                    tableview_players.refresh();
-                   tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
+                   tableview_players.getSelectionModel()
+                           .select(FighterManager.getInstance().getCurrentPlayer());
                 } 
             }
         });
         
         button_sortplayers.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                if (fighterManager.getPlayerNumber() > 0) {
-                    fighterManager.sortPlayers();
+                if (FighterManager.getInstance().getPlayerNumber() > 0) {
+                    FighterManager.getInstance().sortPlayers();
                     tableview_players.refresh();
-                    tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
+                    tableview_players.getSelectionModel()
+                            .select(FighterManager.getInstance().getCurrentPlayer());
                 }
             }
         });
@@ -199,7 +200,7 @@ public class MainScreenController implements Initializable {
                         throw new NumberFormatException();
                     }
 
-                    fighterManager.getHpManager()
+                    FighterManager.getInstance().getHpManager()
                             .player(selectedPlayer)
                             .getsHitFor(damage);
 
@@ -223,7 +224,7 @@ public class MainScreenController implements Initializable {
                         throw new NumberFormatException();
                     }
 
-                    fighterManager.getHpManager()
+                    FighterManager.getInstance().getHpManager()
                             .player(selectedPlayer)
                             .healsFor(damage);
 
@@ -247,12 +248,12 @@ public class MainScreenController implements Initializable {
                     
                     Optional<String> result = dialog.showAndWait();
                     if(result.isPresent() && !result.get().isEmpty()){
-                        fighterManager.getConditionManager()
+                        FighterManager.getInstance().getConditionManager()
                                 .player(selectedPlayer)
                                 .getsCondition(result.get());
                     }
                 } else {
-                    fighterManager.getConditionManager()
+                    FighterManager.getInstance().getConditionManager()
                             .player(selectedPlayer)
                             .getsCondition(item.getText());
                     listview_conditions.refresh();
@@ -263,7 +264,7 @@ public class MainScreenController implements Initializable {
         button_removecond.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 String condition = listview_conditions.getSelectionModel().selectedItemProperty().get();
-                fighterManager.getConditionManager()
+                FighterManager.getInstance().getConditionManager()
                         .player(selectedPlayer)
                         .recoversCondition(condition);
                 listview_conditions.refresh();
@@ -288,12 +289,13 @@ public class MainScreenController implements Initializable {
                 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                    fighterManager.killPlayers(selectedPlayer);
-                    if (fighterManager.getPlayerNumber() <= 0) {
+                    FighterManager.getInstance().killPlayers(selectedPlayer);
+                    if (FighterManager.getInstance().getPlayerNumber() <= 0) {
                         noPlayers = true;
                         disableButtons(true);
                     } else {
-                        tableview_players.getSelectionModel().select(fighterManager.getCurrentPlayer());
+                        tableview_players.getSelectionModel()
+                                .select(FighterManager.getInstance().getCurrentPlayer());
                     }
                 }
             }
@@ -314,7 +316,7 @@ public class MainScreenController implements Initializable {
                 editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
                 
-                if (fighterManager.getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerNumber() > 0) {
                     noPlayers = false;
                 }
             }
@@ -327,7 +329,7 @@ public class MainScreenController implements Initializable {
                bulkPlayerAddController.setScene(bulkAddScene);
                bulkPlayerAddController.showAndWait();
                
-               if (fighterManager.getPlayerNumber() > 0) {
+               if (FighterManager.getInstance().getPlayerNumber() > 0) {
                     noPlayers = false;
                 }
            } 
@@ -343,7 +345,7 @@ public class MainScreenController implements Initializable {
                 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                    fighterManager.killAllPlayers();
+                    FighterManager.getInstance().killAllPlayers();
                 }
             } 
         });

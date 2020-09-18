@@ -1,4 +1,4 @@
-package initiativetracker;
+package InitiativeTracker.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,6 +13,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import InitiativeTracker.classes.Combatant;
+import InitiativeTracker.services.FighterManager;
 
 public class BulkPlayerAddController extends Stage implements Initializable {
 
@@ -130,7 +132,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
             enemies[i] = enemy;
         }
         
-        MainScreenController.fighterManager.addPlayers(enemies);
+        FighterManager.getInstance().addPlayers(enemies);
         
         exit();
     }
