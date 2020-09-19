@@ -13,7 +13,7 @@ public class FileManager {
     private final FileChooser fc = new FileChooser();
     
     //Singleton
-    private static FileManager instance = new FileManager();
+    private static final FileManager instance = new FileManager();
     
     private FileManager() {
         fc.getExtensionFilters().addAll(

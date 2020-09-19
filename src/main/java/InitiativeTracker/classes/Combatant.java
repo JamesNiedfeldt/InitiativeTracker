@@ -93,7 +93,15 @@ public class Combatant implements Comparable{
     }
     
     //Other methods  
-    public void modifyHitPoints(int modifier) {
+    public void takeDamage(int damage) {
+        modifyHitPoints(-damage);
+    }
+    
+    public void heal(int hp) {
+        modifyHitPoints(hp);
+    }
+    
+    private void modifyHitPoints(int modifier) {
         if (modifier < 0 && tempHp > 0) {
             tempHp += modifier;
             if (tempHp < 0){

@@ -110,7 +110,7 @@ public class MainScreenController implements Initializable {
             public void handle(ActionEvent e) {
                 FileManager.getInstance().promptLoad();
                 
-                if (FighterManager.getInstance().getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
                     noPlayers = false;
                 }
             }
@@ -159,7 +159,7 @@ public class MainScreenController implements Initializable {
         
         button_nextturn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                if (FighterManager.getInstance().getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
                    textfield_changehp.clear();
                    FighterManager.getInstance().nextTurn();
                    tableview_players.refresh();
@@ -171,7 +171,7 @@ public class MainScreenController implements Initializable {
         
         button_sortplayers.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                if (FighterManager.getInstance().getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
                     FighterManager.getInstance().sortPlayers();
                     tableview_players.refresh();
                     tableview_players.getSelectionModel()
@@ -200,9 +200,8 @@ public class MainScreenController implements Initializable {
                         throw new NumberFormatException();
                     }
 
-                    FighterManager.getInstance().getHpManager()
-                            .player(selectedPlayer)
-                            .getsHitFor(damage);
+
+                    selectedPlayer.takeDamage(damage);
 
                     label_hpvalue
                             .setText(String.valueOf(selectedPlayer.getHitPoints()
@@ -223,10 +222,8 @@ public class MainScreenController implements Initializable {
                     if (damage < 0) {
                         throw new NumberFormatException();
                     }
-
-                    FighterManager.getInstance().getHpManager()
-                            .player(selectedPlayer)
-                            .healsFor(damage);
+                    
+                    selectedPlayer.heal(damage);
 
                     label_hpvalue
                             .setText(String.valueOf(selectedPlayer.getHitPoints()
@@ -248,14 +245,10 @@ public class MainScreenController implements Initializable {
                     
                     Optional<String> result = dialog.showAndWait();
                     if(result.isPresent() && !result.get().isEmpty()){
-                        FighterManager.getInstance().getConditionManager()
-                                .player(selectedPlayer)
-                                .getsCondition(result.get());
+                        selectedPlayer.addCondition(result.get());
                     }
                 } else {
-                    FighterManager.getInstance().getConditionManager()
-                            .player(selectedPlayer)
-                            .getsCondition(item.getText());
+                    selectedPlayer.addCondition(item.getText());
                     listview_conditions.refresh();
                 }
             });
@@ -264,9 +257,7 @@ public class MainScreenController implements Initializable {
         button_removecond.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 String condition = listview_conditions.getSelectionModel().selectedItemProperty().get();
-                FighterManager.getInstance().getConditionManager()
-                        .player(selectedPlayer)
-                        .recoversCondition(condition);
+                selectedPlayer.removeCondition(condition);
                 listview_conditions.refresh();
             }
         });
@@ -290,7 +281,7 @@ public class MainScreenController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     FighterManager.getInstance().killPlayers(selectedPlayer);
-                    if (FighterManager.getInstance().getPlayerNumber() <= 0) {
+                    if (FighterManager.getInstance().getPlayerCount() <= 0) {
                         noPlayers = true;
                         disableButtons(true);
                     } else {
@@ -316,7 +307,7 @@ public class MainScreenController implements Initializable {
                 editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
                 
-                if (FighterManager.getInstance().getPlayerNumber() > 0) {
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
                     noPlayers = false;
                 }
             }
@@ -329,7 +320,7 @@ public class MainScreenController implements Initializable {
                bulkPlayerAddController.setScene(bulkAddScene);
                bulkPlayerAddController.showAndWait();
                
-               if (FighterManager.getInstance().getPlayerNumber() > 0) {
+               if (FighterManager.getInstance().getPlayerCount() > 0) {
                     noPlayers = false;
                 }
            } 

@@ -9,16 +9,14 @@ import InitiativeTracker.classes.Combatant;
 
 public class FighterManager {
     private static ObservableList<Combatant> players;
-    private static HPManager hpManager;
     private static ConditionManager conditionManager;
     private static int currentPlayer;
     
     //Singleton
-    private static FighterManager instance = new FighterManager();
+    private static final FighterManager instance = new FighterManager();
     
     private FighterManager() {
         players = FXCollections.observableArrayList();
-        hpManager = new HPManager();
         conditionManager = new ConditionManager();
         currentPlayer = 0;
     }
@@ -27,13 +25,11 @@ public class FighterManager {
         return instance;
     }
     
-    public HPManager getHpManager() {
-        return hpManager;
-    }
     public ConditionManager getConditionManager() {
         return conditionManager;
     }
-    public int getPlayerNumber() {
+    
+    public int getPlayerCount() {
         return players.size();
     }
     
@@ -143,46 +139,46 @@ public class FighterManager {
         return formatted;
     }
     
-    public class HPManager {
-        private Combatant combatant;
-        private boolean inFight;
-        
-        private HPManager() {
-            
-        }
-              
-        public PlayerChanger player(Combatant player) {
-            combatant = player;
-            inFight = players.contains(combatant);
-            return new PlayerChanger();
-        }
-        
-        public class PlayerChanger {
-            private PlayerChanger() {
-                
-            }
-            
-           public PlayerChanger getsHitFor(int damage) {
-                if (inFight) {
-                    combatant.modifyHitPoints(-damage);
-                } else {
-                    //TODO: something useful here
-                    System.out.println(combatant.getName()+" is not accounted for");
-                }
-                return this;
-            }
-        
-            public PlayerChanger healsFor(int health) {
-                if (inFight) {
-                    combatant.modifyHitPoints(health);
-                } else {
-                    //TODO: something useful here
-                    System.out.println(combatant.getName()+" is not accounted for");
-                }
-                return this;
-            } 
-        }   
-    }
+//    public class HPManager {
+//        private Combatant combatant;
+//        private boolean inFight;
+//        
+//        private HPManager() {
+//            
+//        }
+//              
+//        public PlayerChanger player(Combatant player) {
+//            combatant = player;
+//            inFight = players.contains(combatant);
+//            return new PlayerChanger();
+//        }
+//        
+//        public class PlayerChanger {
+//            private PlayerChanger() {
+//                
+//            }
+//            
+//           public PlayerChanger getsHitFor(int damage) {
+//                if (inFight) {
+//                    combatant.modifyHitPoints(-damage);
+//                } else {
+//                    //TODO: something useful here
+//                    System.out.println(combatant.getName()+" is not accounted for");
+//                }
+//                return this;
+//            }
+//        
+//            public PlayerChanger healsFor(int health) {
+//                if (inFight) {
+//                    combatant.modifyHitPoints(health);
+//                } else {
+//                    //TODO: something useful here
+//                    System.out.println(combatant.getName()+" is not accounted for");
+//                }
+//                return this;
+//            } 
+//        }   
+//    }
     
     public class ConditionManager {
         private Combatant combatant;
