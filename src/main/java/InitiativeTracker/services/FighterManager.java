@@ -9,7 +9,6 @@ import InitiativeTracker.classes.Combatant;
 
 public class FighterManager {
     private static ObservableList<Combatant> players;
-    private static ConditionManager conditionManager;
     private static int currentPlayer;
     
     //Singleton
@@ -17,16 +16,11 @@ public class FighterManager {
     
     private FighterManager() {
         players = FXCollections.observableArrayList();
-        conditionManager = new ConditionManager();
         currentPlayer = 0;
     }
     
     public static FighterManager getInstance() {
         return instance;
-    }
-    
-    public ConditionManager getConditionManager() {
-        return conditionManager;
     }
     
     public int getPlayerCount() {
@@ -137,82 +131,5 @@ public class FighterManager {
         }
         
         return formatted;
-    }
-    
-//    public class HPManager {
-//        private Combatant combatant;
-//        private boolean inFight;
-//        
-//        private HPManager() {
-//            
-//        }
-//              
-//        public PlayerChanger player(Combatant player) {
-//            combatant = player;
-//            inFight = players.contains(combatant);
-//            return new PlayerChanger();
-//        }
-//        
-//        public class PlayerChanger {
-//            private PlayerChanger() {
-//                
-//            }
-//            
-//           public PlayerChanger getsHitFor(int damage) {
-//                if (inFight) {
-//                    combatant.modifyHitPoints(-damage);
-//                } else {
-//                    //TODO: something useful here
-//                    System.out.println(combatant.getName()+" is not accounted for");
-//                }
-//                return this;
-//            }
-//        
-//            public PlayerChanger healsFor(int health) {
-//                if (inFight) {
-//                    combatant.modifyHitPoints(health);
-//                } else {
-//                    //TODO: something useful here
-//                    System.out.println(combatant.getName()+" is not accounted for");
-//                }
-//                return this;
-//            } 
-//        }   
-//    }
-    
-    public class ConditionManager {
-        private Combatant combatant;
-        private boolean inFight;
-        
-        private ConditionManager() {
-            
-        }
-        
-        public PlayerChanger player(Combatant player) {
-            combatant = player;
-            inFight = players.contains(player);
-            return new PlayerChanger();
-        }
-        
-        public class PlayerChanger {
-            private PlayerChanger() {
-                
-            }
-            
-            public PlayerChanger getsCondition(String condition) {
-                if (inFight) {
-                    combatant.addCondition(condition);
-                }
-                return this;
-            }
-        
-            public PlayerChanger recoversCondition(String condition) {
-                if (inFight) {
-                    combatant.removeCondition(condition);
-                }                
-                return this;
-            }
-        }
-        
     }
 }

@@ -115,8 +115,8 @@ public class Combatant implements Comparable{
     
     public void addCondition(String condition) {
         if (conditions.contains(condition)) {
-            //TODO: something useful
-            System.out.println(name+" already has condition "+condition);
+            throw new RuntimeException(name + " already has condition \""
+                    + condition + "\".");
         } else {
             conditions.add(condition);
         }

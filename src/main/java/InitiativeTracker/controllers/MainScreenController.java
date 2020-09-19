@@ -56,6 +56,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button button_editplayer;
     @FXML private Button button_removeplayer;
     @FXML private CheckBox checkbox_save;
+    @FXML private Label label_message;
   
     @FXML private Button button_addplayers;
     @FXML private Button button_addenemies;
@@ -129,7 +130,7 @@ public class MainScreenController implements Initializable {
         tableview_players.getColumns().clear();
         tableview_players.getColumns().addAll(column_currentturn,column_name,column_hp);
               
-        tableview_players.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        tableview_players.getSelectionModel().selectedItemProperty().addListener((newSelection) -> {
             if (newSelection != null) {
                 selectedPlayer = (Combatant)tableview_players.getSelectionModel().selectedItemProperty().get();
                 
@@ -192,6 +193,8 @@ public class MainScreenController implements Initializable {
         
         button_gethit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                label_message.setText("");
+                
                 textfield_changehp.setStyle("-fx-border-color: NULL;");
                 try {
                     int damage = Integer.parseInt(textfield_changehp.getText());
@@ -200,7 +203,6 @@ public class MainScreenController implements Initializable {
                         throw new NumberFormatException();
                     }
 
-
                     selectedPlayer.takeDamage(damage);
 
                     label_hpvalue
@@ -208,6 +210,7 @@ public class MainScreenController implements Initializable {
                              + " + " + String.valueOf(selectedPlayer.getTempHp())));
                     tableview_players.refresh();
                 } catch(NumberFormatException x) {
+                    label_message.setText("Improper damage value.");
                     textfield_changehp.setStyle("-fx-border-color: RED;");
                 }
             }
@@ -215,6 +218,8 @@ public class MainScreenController implements Initializable {
         
         button_heal.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                label_message.setText("");
+                
                 textfield_changehp.setStyle("-fx-border-color: NULL;");
                 try {
                     int damage = Integer.parseInt(textfield_changehp.getText());
@@ -230,6 +235,7 @@ public class MainScreenController implements Initializable {
                              + " + " + String.valueOf(selectedPlayer.getTempHp())));
                     tableview_players.refresh();
                 } catch(NumberFormatException x) {
+                    label_message.setText("Improper damage value.");
                     textfield_changehp.setStyle("-fx-border-color: RED;");
                 }
             }
@@ -237,25 +243,33 @@ public class MainScreenController implements Initializable {
         
         for (MenuItem item : button_addcond.getItems()) {
             item.setOnAction(a-> {
-                if ("Custom...".equals(item.getText())) {
-                    TextInputDialog dialog = new TextInputDialog("Condition");
-                    dialog.setTitle("Custom Condition");
-                    dialog.setHeaderText("Custom Condition");
-                    dialog.setContentText("Enter condition name:");
-                    
-                    Optional<String> result = dialog.showAndWait();
-                    if(result.isPresent() && !result.get().isEmpty()){
-                        selectedPlayer.addCondition(result.get());
+                label_message.setText("");
+                
+                try {
+                    if ("Custom...".equals(item.getText())) {
+                        TextInputDialog dialog = new TextInputDialog("Condition");
+                        dialog.setTitle("Custom Condition");
+                        dialog.setHeaderText("Custom Condition");
+                        dialog.setContentText("Enter condition name:");
+
+                        Optional<String> result = dialog.showAndWait();
+                        if(result.isPresent() && !result.get().isEmpty()){
+                            selectedPlayer.addCondition(result.get());
+                        }
+                    } else {
+                        selectedPlayer.addCondition(item.getText());
+                        listview_conditions.refresh();
                     }
-                } else {
-                    selectedPlayer.addCondition(item.getText());
-                    listview_conditions.refresh();
+                } catch(RuntimeException e) {
+                    label_message.setText(e.getMessage());
                 }
             });
         }
         
         button_removecond.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                label_message.setText("");
+                
                 String condition = listview_conditions.getSelectionModel().selectedItemProperty().get();
                 selectedPlayer.removeCondition(condition);
                 listview_conditions.refresh();
@@ -264,6 +278,8 @@ public class MainScreenController implements Initializable {
         
         button_editplayer.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                label_message.setText("");
+                
                 editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initEditPlayer(selectedPlayer);
                 editPlayerController.setScene(editPlayerScene);
@@ -273,22 +289,29 @@ public class MainScreenController implements Initializable {
         
         button_removeplayer.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Delete Player");
-                alert.setHeaderText(String.format(
-                        "Are you sure you want to delete %s?", selectedPlayer.getName()));
+                label_message.setText("");
                 
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    FighterManager.getInstance().killPlayers(selectedPlayer);
-                    if (FighterManager.getInstance().getPlayerCount() <= 0) {
-                        noPlayers = true;
-                        disableButtons(true);
-                    } else {
-                        tableview_players.getSelectionModel()
-                                .select(FighterManager.getInstance().getCurrentPlayer());
+                if (selectedPlayer.isSaved()) {
+                    label_message.setText(selectedPlayer.getName() 
+                            + " is set to not be deleted.");
+                } else {
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("Delete Player");
+                    alert.setHeaderText(String.format(
+                            "Are you sure you want to delete %s?", selectedPlayer.getName()));
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK) {
+                        FighterManager.getInstance().killPlayers(selectedPlayer);
+                        if (FighterManager.getInstance().getPlayerCount() <= 0) {
+                            noPlayers = true;
+                            disableButtons(true);
+                        } else {
+                            tableview_players.getSelectionModel()
+                                    .select(FighterManager.getInstance().getCurrentPlayer());
+                        }
                     }
-                }
+                }  
             }
         });
         
