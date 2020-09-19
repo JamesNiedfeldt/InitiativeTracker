@@ -64,7 +64,6 @@ public class MainScreenController implements Initializable {
     
     private Combatant selectedPlayer;
     private SimpleListProperty listProperty;
-    private boolean noPlayers = true;
     
     private EditPlayerController editPlayerController;
     private BulkPlayerAddController bulkPlayerAddController;
@@ -103,17 +102,15 @@ public class MainScreenController implements Initializable {
     private void setupTop() {
         button_save.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                clearMessage();
                 FileManager.getInstance().promptSave();
             }
         });
         
         button_load.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                clearMessage();
                 FileManager.getInstance().promptLoad();
-                
-                if (FighterManager.getInstance().getPlayerCount() > 0) {
-                    noPlayers = false;
-                }
             }
         });
     }
@@ -131,9 +128,11 @@ public class MainScreenController implements Initializable {
         tableview_players.getColumns().addAll(column_currentturn,column_name,column_hp);
               
         tableview_players.getSelectionModel().selectedItemProperty().addListener((newSelection) -> {
-            if (newSelection != null) {
-                selectedPlayer = (Combatant)tableview_players.getSelectionModel().selectedItemProperty().get();
-                
+            label_message.setText("");
+            selectedPlayer = (Combatant)tableview_players
+                    .getSelectionModel().getSelectedItem();
+            
+            if (selectedPlayer != null) {
                 label_playername.setText(selectedPlayer.getName());
                 label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()
                     + " + " + String.valueOf(selectedPlayer.getTempHp())));
@@ -142,12 +141,8 @@ public class MainScreenController implements Initializable {
                 listview_conditions.itemsProperty().bind(listProperty);
                 checkbox_save.setSelected(selectedPlayer.isSaved());
                 
-                if (!noPlayers) {
-                    disableButtons(false);
-                }
+                disableButtons(false);
             } else {
-                selectedPlayer = null;
-                
                 label_playername.setText("No player selected");
                 label_hpvalue.setText("");
                 label_acvalue.setText("");
@@ -160,6 +155,8 @@ public class MainScreenController implements Initializable {
         
         button_nextturn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                clearMessage();
+                
                 if (FighterManager.getInstance().getPlayerCount() > 0) {
                    textfield_changehp.clear();
                    FighterManager.getInstance().nextTurn();
@@ -172,6 +169,8 @@ public class MainScreenController implements Initializable {
         
         button_sortplayers.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                clearMessage();
+                
                 if (FighterManager.getInstance().getPlayerCount() > 0) {
                     FighterManager.getInstance().sortPlayers();
                     tableview_players.refresh();
@@ -193,7 +192,7 @@ public class MainScreenController implements Initializable {
         
         button_gethit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                label_message.setText("");
+                clearMessage();
                 
                 textfield_changehp.setStyle("-fx-border-color: NULL;");
                 try {
@@ -218,7 +217,7 @@ public class MainScreenController implements Initializable {
         
         button_heal.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                label_message.setText("");
+                clearMessage();
                 
                 textfield_changehp.setStyle("-fx-border-color: NULL;");
                 try {
@@ -243,7 +242,7 @@ public class MainScreenController implements Initializable {
         
         for (MenuItem item : button_addcond.getItems()) {
             item.setOnAction(a-> {
-                label_message.setText("");
+                clearMessage();
                 
                 try {
                     if ("Custom...".equals(item.getText())) {
@@ -268,7 +267,7 @@ public class MainScreenController implements Initializable {
         
         button_removecond.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                label_message.setText("");
+                clearMessage();
                 
                 String condition = listview_conditions.getSelectionModel().selectedItemProperty().get();
                 selectedPlayer.removeCondition(condition);
@@ -278,7 +277,7 @@ public class MainScreenController implements Initializable {
         
         button_editplayer.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                label_message.setText("");
+                clearMessage();
                 
                 editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initEditPlayer(selectedPlayer);
@@ -289,7 +288,7 @@ public class MainScreenController implements Initializable {
         
         button_removeplayer.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                label_message.setText("");
+                clearMessage();
                 
                 if (selectedPlayer.isSaved()) {
                     label_message.setText(selectedPlayer.getName() 
@@ -304,8 +303,7 @@ public class MainScreenController implements Initializable {
                     if (result.get() == ButtonType.OK) {
                         FighterManager.getInstance().killPlayers(selectedPlayer);
                         if (FighterManager.getInstance().getPlayerCount() <= 0) {
-                            noPlayers = true;
-                            disableButtons(true);
+                            tableview_players.getSelectionModel().clearSelection();
                         } else {
                             tableview_players.getSelectionModel()
                                     .select(FighterManager.getInstance().getCurrentPlayer());
@@ -325,33 +323,31 @@ public class MainScreenController implements Initializable {
     private void setupBottom() {
         button_addplayers.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                clearMessage();
+                
                 editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initNewPlayer();
                 editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
-                
-                if (FighterManager.getInstance().getPlayerCount() > 0) {
-                    noPlayers = false;
-                }
             }
         });
                
         button_addenemies.setOnAction(new EventHandler<ActionEvent>() {
            public void handle(ActionEvent e) {
+               clearMessage();
+               
                bulkPlayerAddController = bulkAddLoader.getController();
                bulkPlayerAddController.clear();
                bulkPlayerAddController.setScene(bulkAddScene);
                bulkPlayerAddController.showAndWait();
-               
-               if (FighterManager.getInstance().getPlayerCount() > 0) {
-                    noPlayers = false;
-                }
            } 
         });
         
         button_deleteall.setOnAction(new EventHandler<ActionEvent>() {
            public void handle(ActionEvent e) {
-               Alert alert = new Alert(AlertType.CONFIRMATION);
+               clearMessage();
+               
+                Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Delete All");
                 alert.setHeaderText(String.format(
                         "Are you sure you want to delete all fighters?\n\n" + 
@@ -363,6 +359,10 @@ public class MainScreenController implements Initializable {
                 }
             } 
         });
+    }
+    
+    private void clearMessage() {
+        label_message.setText("");
     }
     
     private void disableButtons(boolean bool) {
