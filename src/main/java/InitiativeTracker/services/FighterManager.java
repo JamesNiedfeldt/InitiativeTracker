@@ -1,7 +1,6 @@
 package InitiativeTracker.services;
 
 import java.util.Collections;
-import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -9,14 +8,12 @@ import InitiativeTracker.classes.Combatant;
 
 public class FighterManager {
     private static ObservableList<Combatant> players;
-    private static int currentPlayer;
     
     //Singleton
     private static final FighterManager instance = new FighterManager();
     
     private FighterManager() {
         players = FXCollections.observableArrayList();
-        currentPlayer = 0;
     }
     
     public static FighterManager getInstance() {
@@ -25,10 +22,6 @@ public class FighterManager {
     
     public int getPlayerCount() {
         return players.size();
-    }
-    
-    public int getCurrentPlayer() {
-        return currentPlayer;
     }
     
     public void addToTable(TableView table) {
@@ -49,17 +42,7 @@ public class FighterManager {
             if (!combatant.isSaved()) {
                 if(index != -1 && players.size() == 1){
                     players.remove(combatant);
-                    currentPlayer = 0;
                     break;
-                } else if (index != -1 && players.get(index).isCurrentPlayer()) {
-                    if (index >= players.size() - 1) {
-                        players.get(0).setCurrentPlayer(true);
-                        currentPlayer = 0;
-                    } else {
-                        players.get(index + 1).setCurrentPlayer(true);
-                    }
-                } else if (index != -1 && currentPlayer > index) {
-                    currentPlayer--;
                 }
                 players.remove(combatant);
             }
@@ -85,9 +68,6 @@ public class FighterManager {
     public void replacePlayers(Combatant playerOut, Combatant playerIn) {
         int index = players.indexOf(playerOut);
         
-        if (playerOut.isCurrentPlayer()) {
-            playerIn.setCurrentPlayer(true);
-        }
         if (index != -1) {
             players.remove(playerOut);
             players.add(index, playerIn);
@@ -95,15 +75,9 @@ public class FighterManager {
     }
     
     public void nextTurn() {
-        if (currentPlayer < players.size() - 1) {
-            players.get(currentPlayer).setCurrentPlayer(false);
-            players.get(currentPlayer + 1).setCurrentPlayer(true);
-            currentPlayer++;
-        } else {
-            players.get(players.size() - 1).setCurrentPlayer(false);
-            players.get(0).setCurrentPlayer(true);
-            currentPlayer = 0;
-        }
+        Combatant tmp = players.get(0);
+        players.remove(0);
+        players.add(tmp);
     }
     
     public void printPlayers() {
@@ -116,11 +90,6 @@ public class FighterManager {
     
     public void sortPlayers() {
         Collections.sort(players);
-        currentPlayer = 0;
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).setCurrentPlayer(false);
-        }
-        players.get(currentPlayer).setCurrentPlayer(true);
     }
     
     public String[] formatForFile() {

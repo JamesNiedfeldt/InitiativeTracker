@@ -19,9 +19,8 @@
             </Label>
             <TableView fx:id="tableview_players" layoutX="25.0" layoutY="50.0" prefHeight="290.0" prefWidth="200.0">
               <columns>
-                  <TableColumn fx:id="column_currentturn" prefWidth="20.0" />
-                <TableColumn fx:id="column_name" prefWidth="126.0" text="Player" />
-                <TableColumn fx:id="column_hp" prefWidth="53.0" text="HP" />
+                <TableColumn fx:id="column_name" prefWidth="130.0" resizable="false" text="Player" />
+                <TableColumn fx:id="column_hp" maxWidth="1.7976931348623157E308" prefWidth="70.0" resizable="false" text="HP" />
               </columns>
             </TableView>
             <Button fx:id="button_sortplayers" layoutX="25.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Sort" />

@@ -40,7 +40,6 @@ public class MainScreenController implements Initializable {
     @FXML private TableView tableview_players;
     @FXML private TableColumn column_name;
     @FXML private TableColumn column_hp;
-    @FXML private TableColumn column_currentturn;
     @FXML private Button button_sortplayers;
     @FXML private Button button_nextturn;
     
@@ -116,8 +115,6 @@ public class MainScreenController implements Initializable {
     }
     
     private void setupLeft() {
-        column_currentturn.setCellValueFactory(new PropertyValueFactory<>("currentPlayerIndicator"));
-        column_currentturn.setSortable(false);
         column_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         column_name.setSortable(false);
         column_hp.setCellValueFactory(new PropertyValueFactory<>("totalHp"));
@@ -125,7 +122,7 @@ public class MainScreenController implements Initializable {
         
         FighterManager.getInstance().addToTable(tableview_players);
         tableview_players.getColumns().clear();
-        tableview_players.getColumns().addAll(column_currentturn,column_name,column_hp);
+        tableview_players.getColumns().addAll(column_name,column_hp);
               
         tableview_players.getSelectionModel().selectedItemProperty().addListener((newSelection) -> {
             label_message.setText("");
@@ -161,8 +158,7 @@ public class MainScreenController implements Initializable {
                    textfield_changehp.clear();
                    FighterManager.getInstance().nextTurn();
                    tableview_players.refresh();
-                   tableview_players.getSelectionModel()
-                           .select(FighterManager.getInstance().getCurrentPlayer());
+                   tableview_players.getSelectionModel().select(0);
                 } 
             }
         });
@@ -174,8 +170,7 @@ public class MainScreenController implements Initializable {
                 if (FighterManager.getInstance().getPlayerCount() > 0) {
                     FighterManager.getInstance().sortPlayers();
                     tableview_players.refresh();
-                    tableview_players.getSelectionModel()
-                            .select(FighterManager.getInstance().getCurrentPlayer());
+                    tableview_players.getSelectionModel().select(0);
                 }
             }
         });
@@ -305,8 +300,7 @@ public class MainScreenController implements Initializable {
                         if (FighterManager.getInstance().getPlayerCount() <= 0) {
                             tableview_players.getSelectionModel().clearSelection();
                         } else {
-                            tableview_players.getSelectionModel()
-                                    .select(FighterManager.getInstance().getCurrentPlayer());
+                            tableview_players.getSelectionModel().select(0);
                         }
                     }
                 }  

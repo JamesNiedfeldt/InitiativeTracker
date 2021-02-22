@@ -7,7 +7,7 @@ public class Combatant implements Comparable{
     private String name;
     private int hitPoints, tempHp, dexterity, initiative, armorClass;
     private ObservableList<String> conditions;
-    private boolean currentPlayer, saved;
+    private boolean saved;
     
     private Combatant(Builder builder) {
         name = builder.name;
@@ -17,7 +17,6 @@ public class Combatant implements Comparable{
         initiative = builder.initiative;
         armorClass = builder.armorClass;
         conditions = FXCollections.observableArrayList();
-        currentPlayer = false;
         saved = false;
     }
     
@@ -43,9 +42,6 @@ public class Combatant implements Comparable{
     }
     public void setArmorClass(int inAc) {
         armorClass = inAc;
-    }
-    public void setCurrentPlayer(boolean bool) {
-        currentPlayer = bool;
     }
     public void setSaved(boolean bool) {
         saved = bool;
@@ -77,16 +73,6 @@ public class Combatant implements Comparable{
         ObservableList<String> toReturn = conditions;
         FXCollections.sort(toReturn);
         return toReturn;
-    }
-    public boolean isCurrentPlayer() {
-        return currentPlayer;
-    }
-    public String getCurrentPlayerIndicator() {
-        if (currentPlayer) {
-            return Character.toString((char)0x23E9);
-        } else {
-            return "";
-        }
     }
     public boolean isSaved() {
         return saved;
