@@ -5,13 +5,17 @@ import javafx.collections.FXCollections;
 
 public class Combatant implements Comparable{
     private String name;
-    private int hitPoints, tempHp, dexterity, initiative, armorClass;
+    private int maxHp, currentHp, tempHp, dexterity, initiative, armorClass;
     private ObservableList<String> conditions;
     private boolean saved;
     
     private Combatant(Builder builder) {
         name = builder.name;
-        hitPoints = builder.hitPoints;
+        maxHp = builder.maxHp;
+        currentHp = builder.currentHp;
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
+        }
         tempHp = builder.tempHp;
         dexterity = builder.dexterity;
         initiative = builder.initiative;
@@ -28,8 +32,14 @@ public class Combatant implements Comparable{
             name = inName;
         }
     }
-    public void setHitPoints(int inHp) { 
-        hitPoints = inHp; 
+    public void setMaxHp(int inHp) { 
+        maxHp = inHp; 
+    }
+    public void setCurrentHp(int inHp) {
+        currentHp = inHp;
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
+        }
     }
     public void setTempHp(int inHp) {
         tempHp = inHp;
@@ -51,14 +61,17 @@ public class Combatant implements Comparable{
     public String getName() { 
         return name; 
     }
-    public int getHitPoints() { 
-        return hitPoints; 
+    public int getMaxHp() { 
+        return maxHp; 
+    }
+    public int getCurrentHp() {
+        return currentHp;
     }
     public int getTempHp() {
         return tempHp;
     }
     public int getTotalHp() {
-        return hitPoints + tempHp;
+        return currentHp + tempHp;
     }
     public int getDexterity() { 
         return dexterity; 
@@ -91,11 +104,16 @@ public class Combatant implements Comparable{
         if (modifier < 0 && tempHp > 0) {
             tempHp += modifier;
             if (tempHp < 0){
-                hitPoints += tempHp;
+                currentHp += tempHp;
                 tempHp = 0;
             }
         } else {
-          hitPoints += modifier;  
+          currentHp += modifier;
+            if (currentHp > maxHp) {
+                currentHp = maxHp;
+            } else if (currentHp < 0) {
+                currentHp = 0;
+            }
         }
     }
     
@@ -114,7 +132,7 @@ public class Combatant implements Comparable{
     
     public void print() {
         System.out.println(name);
-        System.out.println("HP: "+hitPoints+" + "+tempHp);
+        System.out.println("HP: "+currentHp+" + "+tempHp+"/"+maxHp);
         System.out.println("Dexterity: "+dexterity);
         System.out.println("Initiative: "+initiative);
         System.out.println("Conditions: "+conditions);
@@ -124,7 +142,8 @@ public class Combatant implements Comparable{
     public String formatForFile() {
         String str;
         
-        str = name + ',' + hitPoints + ',' + tempHp + ',' + dexterity + 
+        str = name + ',' + maxHp + ',' + currentHp + ',' + tempHp + 
+                ',' + dexterity + 
                 ',' + initiative + ',' + armorClass + ',' + saved;
         
         for (String cond : conditions) {
@@ -157,19 +176,25 @@ public class Combatant implements Comparable{
     //Builder subclass
     public static class Builder {
         private String name;
-        private int hitPoints, tempHp, dexterity, initiative, armorClass;
+        private int maxHp, currentHp, tempHp, dexterity, initiative, armorClass;
         
         public Builder(String inName) {
             name = inName;
-            hitPoints = 0;
+            maxHp = 0;
+            currentHp = 0;
             tempHp = 0;
             dexterity = 0;
             initiative = 0;
             armorClass = 0;
         }
         
-        public Builder hp(int inHp) {
-            hitPoints = inHp;
+        public Builder maxHp(int inHp) {
+            maxHp = inHp;
+            return this;
+        }
+        
+        public Builder currentHp(int inHp) {
+            currentHp = inHp;
             return this;
         }
         

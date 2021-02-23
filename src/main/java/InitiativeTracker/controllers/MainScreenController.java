@@ -31,6 +31,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import InitiativeTracker.classes.Combatant;
 import InitiativeTracker.services.FighterManager;
 import InitiativeTracker.services.FileManager;
+import javafx.geometry.Pos;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.text.TextAlignment;
 
 public class MainScreenController implements Initializable {
     
@@ -45,6 +48,7 @@ public class MainScreenController implements Initializable {
     
     @FXML private Label label_playername;
     @FXML private Label label_hpvalue;
+    @FXML private ProgressBar bar_hp;
     @FXML private TextField textfield_changehp;
     @FXML private Label label_acvalue;
     @FXML private Button button_gethit;
@@ -131,8 +135,10 @@ public class MainScreenController implements Initializable {
             
             if (selectedPlayer != null) {
                 label_playername.setText(selectedPlayer.getName());
-                label_hpvalue.setText(String.valueOf(selectedPlayer.getHitPoints()
-                    + " + " + String.valueOf(selectedPlayer.getTempHp())));
+                label_hpvalue.setText(String.valueOf(selectedPlayer.getTotalHp()
+                    + " / " + String.valueOf(selectedPlayer.getMaxHp())));
+                bar_hp.setProgress((double) 
+                    selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
                 label_acvalue.setText(String.valueOf(selectedPlayer.getArmorClass()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
@@ -156,6 +162,7 @@ public class MainScreenController implements Initializable {
                 
                 if (FighterManager.getInstance().getPlayerCount() > 0) {
                    textfield_changehp.clear();
+                   bar_hp.setProgress(0);
                    FighterManager.getInstance().nextTurn();
                    tableview_players.refresh();
                    tableview_players.getSelectionModel().select(0);
@@ -185,6 +192,10 @@ public class MainScreenController implements Initializable {
         }
         button_addcond.getItems().addAll(condMenu);
         
+        label_hpvalue.setAlignment(Pos.CENTER);
+        bar_hp.setStyle("-fx-accent: GREEN;"
+                + "-fx-control-inner-background: BLACK;");
+        
         button_gethit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 clearMessage();
@@ -200,8 +211,10 @@ public class MainScreenController implements Initializable {
                     selectedPlayer.takeDamage(damage);
 
                     label_hpvalue
-                            .setText(String.valueOf(selectedPlayer.getHitPoints()
-                             + " + " + String.valueOf(selectedPlayer.getTempHp())));
+                            .setText(String.valueOf(selectedPlayer.getTotalHp()
+                             + " / " + String.valueOf(selectedPlayer.getMaxHp())));
+                    bar_hp.setProgress((double) 
+                            selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
                     tableview_players.refresh();
                 } catch(NumberFormatException x) {
                     label_message.setText("Improper damage value.");
@@ -225,8 +238,10 @@ public class MainScreenController implements Initializable {
                     selectedPlayer.heal(damage);
 
                     label_hpvalue
-                            .setText(String.valueOf(selectedPlayer.getHitPoints()
-                             + " + " + String.valueOf(selectedPlayer.getTempHp())));
+                            .setText(String.valueOf(selectedPlayer.getTotalHp()
+                             + " / " + String.valueOf(selectedPlayer.getMaxHp())));
+                    bar_hp.setProgress((double) 
+                            selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
                     tableview_players.refresh();
                 } catch(NumberFormatException x) {
                     label_message.setText("Improper damage value.");
@@ -362,6 +377,7 @@ public class MainScreenController implements Initializable {
     private void disableButtons(boolean bool) {
         button_addcond.setDisable(bool);
         button_removecond.setDisable(bool);
+        bar_hp.setDisable(bool);
         button_gethit.setDisable(bool);
         button_heal.setDisable(bool);
         button_editplayer.setDisable(bool);
@@ -372,6 +388,7 @@ public class MainScreenController implements Initializable {
         
         if (bool) {
             textfield_changehp.clear();
+            bar_hp.setProgress(0);
             checkbox_save.setSelected(false);
         }
     }

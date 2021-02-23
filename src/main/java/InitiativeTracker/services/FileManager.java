@@ -95,15 +95,16 @@ public class FileManager {
         
         try {
             fighter = new Combatant.Builder(fields[0])
-                .hp(Integer.parseInt(fields[1]))
-                .tempHp(Integer.parseInt(fields[2]))
-                .dex(Integer.parseInt(fields[3]))
-                .init(Integer.parseInt(fields[4]))
-                .ac(Integer.parseInt(fields[5])).build();
+                .maxHp(Integer.parseInt(fields[1]))
+                .currentHp(Integer.parseInt(fields[2]))
+                .tempHp(Integer.parseInt(fields[3]))
+                .dex(Integer.parseInt(fields[4]))
+                .init(Integer.parseInt(fields[5]))
+                .ac(Integer.parseInt(fields[6])).build();
+ 
+            fighter.setSaved(Boolean.parseBoolean(fields[7]));
             
-            fighter.setSaved(Boolean.parseBoolean(fields[6]));
-            
-            for (int i = 7; i < fields.length; i++) {
+            for (int i = 8; i < fields.length; i++) {
                 fighter.addCondition(fields[i]);
             }
             

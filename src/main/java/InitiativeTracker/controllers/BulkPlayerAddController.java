@@ -123,7 +123,8 @@ public class BulkPlayerAddController extends Stage implements Initializable {
             init += ((Math.random() * 20) + 1) + dexMod;
 
             enemy = new Combatant.Builder(name)
-                    .hp(hitPoints)
+                    .maxHp(hitPoints)
+                    .currentHp(hitPoints)
                     .dex(dex)
                     .init(init)
                     .ac(ac)

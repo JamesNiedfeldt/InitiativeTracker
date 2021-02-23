@@ -31,26 +31,29 @@
    <right>
       <AnchorPane fx:id="anchorplane_selectedplayer" prefHeight="364.0" prefWidth="366.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuButton fx:id="button_addcond" layoutX="224.0" layoutY="144.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" text="Add" />
+            <MenuButton fx:id="button_addcond" layoutX="224.0" layoutY="153.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" text="Add" />
             <Label fx:id="label_playername" alignment="CENTER" layoutX="-1.0" layoutY="14.0" prefHeight="25.0" prefWidth="366.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="label_hptitle" layoutX="55.0" layoutY="56.0" prefHeight="20.0" text="HP:" />
-            <Label fx:id="label_hpvalue" layoutX="80.0" layoutY="56.0" prefWidth="100.0" />
-            <TextField fx:id="textfield_changehp" layoutX="57.0" layoutY="76.0" prefHeight="30.0" prefWidth="63.0" />
-            <Button fx:id="button_gethit" layoutX="133.0" layoutY="76.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
-            <Button fx:id="button_heal" layoutX="224.0" layoutY="76.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
+            <ProgressBar fx:id="bar_hp" layoutX="57.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="30.0" prefWidth="151.0" progress="0.0" />
+            <Label fx:id="label_hpvalue" contentDisplay="TOP" layoutX="57.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="30.0" prefWidth="151.0" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <TextField fx:id="textfield_changehp" layoutX="57.0" layoutY="85.0" prefHeight="30.0" prefWidth="63.0" />
+            <Button fx:id="button_gethit" layoutX="133.0" layoutY="85.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
+            <Button fx:id="button_heal" layoutX="224.0" layoutY="85.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
             <Separator layoutX="10.0" layoutY="39.0" prefHeight="11.0" prefWidth="346.0" />
-            <Label fx:id="label_conditiontitle" layoutX="57.0" layoutY="122.0" prefHeight="20.0" text="Conditions:" />
-            <ListView fx:id="listview_conditions" layoutX="57.0" layoutY="142.0" prefHeight="90.0" prefWidth="146.0" />
-            <Button fx:id="button_removecond" layoutX="224.0" layoutY="188.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
+            <Label fx:id="label_conditiontitle" layoutX="57.0" layoutY="131.0" prefHeight="20.0" text="Conditions:" />
+            <ListView fx:id="listview_conditions" layoutX="57.0" layoutY="151.0" prefHeight="90.0" prefWidth="146.0" />
+            <Button fx:id="button_removecond" layoutX="224.0" layoutY="197.0" mnemonicParsing="false" prefWidth="75.0" text="Remove" />
             <Button fx:id="button_editplayer" layoutX="58.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
             <Button fx:id="button_removeplayer" layoutX="198.0" layoutY="355.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
-            <CheckBox fx:id="checkbox_save" layoutX="58.0" layoutY="250.0" mnemonicParsing="false" text="Do not delete" />
-            <Label fx:id="label_acvalue" layoutX="213.0" layoutY="56.0" prefWidth="100.0" />
-            <Label fx:id="label_actitle" layoutX="188.0" layoutY="56.0" prefHeight="20.0" text="AC:" />
+            <CheckBox fx:id="checkbox_save" layoutX="58.0" layoutY="259.0" mnemonicParsing="false" text="Do not delete" />
+            <Label fx:id="label_acvalue" layoutX="244.0" layoutY="55.0" prefWidth="50.0" />
+            <Label fx:id="label_actitle" layoutX="224.0" layoutY="55.0" prefHeight="20.0" text="AC:" />
             <Label fx:id="label_message" alignment="CENTER" layoutX="18.0" layoutY="330.0" prefHeight="20.0" prefWidth="330.0" textFill="RED" />
          </children>
       </AnchorPane>
