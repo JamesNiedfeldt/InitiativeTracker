@@ -134,6 +134,8 @@ public class MainScreenController implements Initializable {
         FighterManager.getInstance().addToTable(tableview_players);
         tableview_players.getColumns().clear();
         tableview_players.getColumns().addAll(column_name,column_hp);
+        
+        tableview_players.setPlaceholder(new Label("No players in encounter"));
               
         tableview_players.getSelectionModel().selectedItemProperty().addListener((newSelection) -> {
             label_message.setText("");
@@ -251,6 +253,8 @@ public class MainScreenController implements Initializable {
                 try {
                     if ("Custom...".equals(item.getText())) {
                         TextInputDialog dialog = new TextInputDialog("Condition");
+                        dialog.getDialogPane().getStylesheets().add(getClass()
+                            .getResource("/css/styles.css").toExternalForm());
                         dialog.setTitle("Custom Condition");
                         dialog.setHeaderText("Custom Condition");
                         dialog.setContentText("Enter condition name:");
@@ -299,6 +303,8 @@ public class MainScreenController implements Initializable {
                             + " is set to not be deleted.");
                 } else {
                     Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.getDialogPane().getStylesheets().add(getClass()
+                            .getResource("/css/styles.css").toExternalForm());
                     alert.setTitle("Delete Player");
                     alert.setHeaderText(String.format(
                             "Are you sure you want to delete %s?", selectedPlayer.getName()));
@@ -357,6 +363,8 @@ public class MainScreenController implements Initializable {
                clearMessage();
                
                 Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.getDialogPane().getStylesheets().add(getClass()
+                            .getResource("/css/styles.css").toExternalForm());
                 alert.setTitle("Delete All");
                 alert.setHeaderText(String.format(
                         "Are you sure you want to delete all fighters?\n\n" + 
@@ -383,7 +391,7 @@ public class MainScreenController implements Initializable {
         if (selectedPlayer.getTempHp() > 0) {
             bar_hp.setStyle("-fx-accent: cornflowerblue");
         } else {
-            bar_hp.setStyle("-fx-accent: green");
+            bar_hp.setStyle("");
         }
     }
     
@@ -419,7 +427,7 @@ public class MainScreenController implements Initializable {
     
     private void clearState() {
         disableButtons(true);
-        label_playername.setText("No players in encounter");
+        label_playername.setText("");
         label_hpvalue.setText("");
         label_acvalue.setText("");
         listProperty.set(null);

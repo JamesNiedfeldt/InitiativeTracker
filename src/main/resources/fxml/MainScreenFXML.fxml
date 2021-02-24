@@ -23,9 +23,6 @@
                 <TableColumn fx:id="column_name" prefWidth="130.0" resizable="false" text="Player" />
                 <TableColumn fx:id="column_hp" maxWidth="1.7976931348623157E308" prefWidth="68.0" resizable="false" text="HP" />
               </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
             </TableView>
             <Button fx:id="button_sortplayers" layoutX="25.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Sort" />
             <Button fx:id="button_nextturn" layoutX="135.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Next Turn" />

@@ -1,9 +1,10 @@
-.root {
+.root, .tool-bar {
     -fx-background-color: #f0eee4;
 }
 
-.tool-bar {
-    -fx-background-color: #f0eee4;
+.dialog-pane .header-panel {
+    -fx-background-color: floralwhite;
+    -fx-font-weight: bold;
 }
 
 .text-input {
@@ -12,16 +13,16 @@
     -fx-border-radius: 5px;
 }
 
-.button, .menu-button, .check-box .box {
+.button, .menu-button, .choice-box, .check-box .box {
     -fx-background-radius: 5px;
     -fx-background-color: burlywood;
     -fx-border-color: darkslategray;
     -fx-border-radius: 5px;
 }
-.button:hover, .menu-button:hover {
+.button:hover, .menu-button:hover, .choice-box:hover {
     -fx-background-color: bisque;
 }
-.button:pressed, .menu-button:pressed {
+.button:pressed, .menu-button:pressed, .choice-box:pressed {
     -fx-effect: innershadow(gaussian, black, 7, 0.1, 0, 0);
 }
 
