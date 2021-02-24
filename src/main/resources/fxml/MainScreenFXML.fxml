@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -12,7 +13,7 @@
    <left>
       <AnchorPane fx:id="anchorpane_turnorder" prefHeight="364.0" prefWidth="250.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="label_turnorder" layoutX="86.0" layoutY="15.0" text="Turn Order">
+            <Label fx:id="label_turnorder" layoutX="25.0" layoutY="15.0" prefWidth="200.0" styleClass="section-header" text="Turn Order">
                <font>
                   <Font size="16.0" />
                </font>
@@ -20,8 +21,11 @@
             <TableView fx:id="tableview_players" layoutX="25.0" layoutY="50.0" prefHeight="290.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="column_name" prefWidth="130.0" resizable="false" text="Player" />
-                <TableColumn fx:id="column_hp" maxWidth="1.7976931348623157E308" prefWidth="70.0" resizable="false" text="HP" />
+                <TableColumn fx:id="column_hp" maxWidth="1.7976931348623157E308" prefWidth="68.0" resizable="false" text="HP" />
               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
             <Button fx:id="button_sortplayers" layoutX="25.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Sort" />
             <Button fx:id="button_nextturn" layoutX="135.0" layoutY="355.0" mnemonicParsing="false" prefWidth="90.0" text="Next Turn" />
@@ -32,18 +36,18 @@
       <AnchorPane fx:id="anchorplane_selectedplayer" prefHeight="364.0" prefWidth="366.0" BorderPane.alignment="CENTER">
          <children>
             <MenuButton fx:id="button_addcond" layoutX="224.0" layoutY="153.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" text="Add" />
-            <Label fx:id="label_playername" alignment="CENTER" layoutX="-1.0" layoutY="14.0" prefHeight="25.0" prefWidth="366.0">
+            <Label fx:id="label_playername" alignment="CENTER" layoutX="-1.0" layoutY="14.0" prefHeight="25.0" prefWidth="366.0" styleClass="section-header">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="bar_hp" layoutX="57.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="30.0" prefWidth="151.0" progress="0.0" />
-            <Label fx:id="label_hpvalue" contentDisplay="TOP" layoutX="57.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="30.0" prefWidth="151.0" textAlignment="CENTER" textFill="WHITE">
+            <ProgressBar fx:id="bar_hp" layoutX="57.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="30.0" prefWidth="153.0" progress="0.0" styleClass="hp_bar" />
+            <Label fx:id="label_hpvalue" layoutX="57.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="30.0" prefWidth="153.0" styleClass="hp_label">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
-            <TextField fx:id="textfield_changehp" layoutX="57.0" layoutY="85.0" prefHeight="30.0" prefWidth="63.0" />
-            <Button fx:id="button_gethit" layoutX="133.0" layoutY="85.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
+            <TextField fx:id="textfield_changehp" layoutX="57.0" layoutY="85.0" prefHeight="30.0" prefWidth="63.0" promptText="Value" />
+            <Button fx:id="button_gethit" layoutX="135.0" layoutY="85.0" mnemonicParsing="false" prefWidth="75.0" text="Damage" />
             <Button fx:id="button_heal" layoutX="224.0" layoutY="85.0" mnemonicParsing="false" prefWidth="75.0" text="Heal" />
             <Separator layoutX="10.0" layoutY="39.0" prefHeight="11.0" prefWidth="346.0" />
             <Label fx:id="label_conditiontitle" layoutX="57.0" layoutY="131.0" prefHeight="20.0" text="Conditions:" />
@@ -52,7 +56,7 @@
             <Button fx:id="button_editplayer" layoutX="58.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
             <Button fx:id="button_removeplayer" layoutX="198.0" layoutY="355.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
             <CheckBox fx:id="checkbox_save" layoutX="58.0" layoutY="259.0" mnemonicParsing="false" text="Do not delete" />
-            <Label fx:id="label_acvalue" layoutX="244.0" layoutY="55.0" prefWidth="50.0" />
+            <Label fx:id="label_acvalue" layoutX="254.0" layoutY="55.0" prefWidth="40.0" />
             <Label fx:id="label_actitle" layoutX="224.0" layoutY="55.0" prefHeight="20.0" text="AC:" />
             <Label fx:id="label_message" alignment="CENTER" layoutX="18.0" layoutY="330.0" prefHeight="20.0" prefWidth="330.0" textFill="RED" />
          </children>
@@ -62,7 +66,7 @@
       <AnchorPane prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Separator layoutX="20.0" prefWidth="560.0" />
-            <Button fx:id="button_addplayers" layoutX="90.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Add Players..." />
+            <Button fx:id="button_addplayers" layoutX="90.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Add Player..." />
             <Button fx:id="button_addenemies" layoutX="240.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Add Monsters..." />
             <Button fx:id="button_deleteall" layoutX="390.0" layoutY="15.0" mnemonicParsing="false" prefWidth="120.0" text="Delete All" />
          </children>

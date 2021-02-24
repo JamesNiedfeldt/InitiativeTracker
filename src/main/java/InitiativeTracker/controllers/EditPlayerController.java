@@ -49,13 +49,7 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_ac.setText(Integer.toString(combatant.getArmorClass()));
         textfield_dex.setText(Integer.toString(combatant.getDexterity()));
         textfield_init.setText(Integer.toString(combatant.getInitiative()));
-        textfield_name.setStyle("-fx-border-color: NULL;");
-        textfield_currenthp.setStyle("-fx-border-color: NULL;");
-        textfield_maxhp.setStyle("-fx-border-color: NULL;");
-        textfield_temphp.setStyle("-fx-border-color: NULL");
-        textfield_ac.setStyle("-fx-border-color: NULL");
-        textfield_dex.setStyle("-fx-border-color: NULL;");
-        textfield_init.setStyle("-fx-border-color: NULL;");
+        clearFieldStyles();
         
         textfield_name.requestFocus();
         
@@ -63,13 +57,7 @@ public class EditPlayerController extends Stage implements Initializable {
             public void handle(ActionEvent e) {
                 
                 try {                   
-                    textfield_name.setStyle("-fx-border-color: NULL;");
-                    textfield_currenthp.setStyle("-fx-border-color: NULL;");
-                    textfield_maxhp.setStyle("-fx-border-color: NULL;");
-                    textfield_temphp.setStyle("-fx-border-color: NULL");
-                    textfield_ac.setStyle("-fx-border-color: NULL");
-                    textfield_dex.setStyle("-fx-border-color: NULL;");
-                    textfield_init.setStyle("-fx-border-color: NULL;");
+                    clearFieldStyles();
                     checkFields();
                     
                     Combatant editedPlayer = new Combatant
@@ -104,26 +92,20 @@ public class EditPlayerController extends Stage implements Initializable {
         textfield_ac.clear();
         textfield_dex.clear();
         textfield_init.clear();
-        textfield_name.setStyle("-fx-border-color: NULL;");
-        textfield_currenthp.setStyle("-fx-border-color: NULL;");
-        textfield_maxhp.setStyle("-fx-border-color: NULL;");
-        textfield_temphp.setStyle("-fx-border-color: NULL");
-        textfield_ac.setStyle("-fx-border-color: NULL");
-        textfield_dex.setStyle("-fx-border-color: NULL;");
-        textfield_init.setStyle("-fx-border-color: NULL;");
+        clearFieldStyles();
         
         textfield_name.requestFocus();
         
         button_finish.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 try{     
-                    textfield_name.setStyle("-fx-border-color: NULL;");
-                    textfield_currenthp.setStyle("-fx-border-color: NULL;");
-                    textfield_maxhp.setStyle("-fx-border-color: NULL;");
-                    textfield_temphp.setStyle("-fx-border-color: NULL");
-                    textfield_ac.setStyle("-fx-border-color: NULL");
-                    textfield_dex.setStyle("-fx-border-color: NULL;");
-                    textfield_init.setStyle("-fx-border-color: NULL;");
+                    textfield_name.setStyle("");
+                    textfield_currenthp.setStyle("");
+                    textfield_maxhp.setStyle("");
+                    textfield_temphp.setStyle("");
+                    textfield_ac.setStyle("");
+                    textfield_dex.setStyle("");
+                    textfield_init.setStyle("");
                     checkFields();
                     Combatant newPlayer = new Combatant
                             .Builder(textfield_name.getText())
@@ -150,36 +132,46 @@ public class EditPlayerController extends Stage implements Initializable {
         stage.close();
     }
     
+    private void clearFieldStyles() {
+        textfield_name.setStyle("");
+        textfield_currenthp.setStyle("");
+        textfield_maxhp.setStyle("");
+        textfield_temphp.setStyle("");
+        textfield_ac.setStyle("");
+        textfield_dex.setStyle("");
+        textfield_init.setStyle("");
+    }
+    
     private void checkFields() {
         boolean foundExc = false;
         
         try{
             if (textfield_name.getText().isEmpty()) {
-                textfield_name.setStyle("-fx-border-color: RED;");
+                textfield_name.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_currenthp.getText().isEmpty()) {
-                textfield_currenthp.setStyle("-fx-border-color: RED;");
+                textfield_currenthp.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_maxhp.getText().isEmpty()) {
-                textfield_maxhp.setStyle("-fx-border-color: RED;");
+                textfield_maxhp.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_temphp.getText().isEmpty()) {
-                textfield_temphp.setStyle("-fx-border-color: RED;");
+                textfield_temphp.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_ac.getText().isEmpty()) {
-                textfield_ac.setStyle("-fx-border-color: RED;");
+                textfield_ac.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_dex.getText().isEmpty()) {
-                textfield_dex.setStyle("-fx-border-color: RED;");
+                textfield_dex.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_init.getText().isEmpty()) {
-                textfield_init.setStyle("-fx-border-color: RED;");
+                textfield_init.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             
@@ -187,40 +179,40 @@ public class EditPlayerController extends Stage implements Initializable {
             try {
                 Integer.parseInt(textfield_currenthp.getText());
             } catch(NumberFormatException x) {
-                textfield_currenthp.setStyle("-fx-border-color: RED;");
+                textfield_currenthp.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             try {
                 Integer.parseInt(textfield_maxhp.getText());
             } catch(NumberFormatException x) {
-                textfield_maxhp.setStyle("-fx-border-color: RED;");
+                textfield_maxhp.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             try {
                 if(Integer.parseInt(textfield_temphp.getText()) < 0){
-                    textfield_temphp.setStyle("-fx-border-color: RED;");
+                    textfield_temphp.setStyle("-fx-border-color: red;");
                     foundExc = true;
                 };
             } catch(NumberFormatException x) {
-                textfield_temphp.setStyle("-fx-border-color: RED;");
+                textfield_temphp.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             try {
                 Integer.parseInt(textfield_ac.getText());
             } catch(NumberFormatException x) {
-                textfield_ac.setStyle("-fx-border-color: RED;");
+                textfield_ac.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             try {
                 Integer.parseInt(textfield_dex.getText());
             } catch(NumberFormatException x) {
-                textfield_dex.setStyle("-fx-border-color: RED;");
+                textfield_dex.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             try {
                 Integer.parseInt(textfield_init.getText());
             } catch(NumberFormatException x) {
-                textfield_init.setStyle("-fx-border-color: RED;");
+                textfield_init.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             

@@ -1,0 +1,70 @@
+.root {
+    -fx-background-color: #f0eee4;
+}
+
+.tool-bar {
+    -fx-background-color: #f0eee4;
+}
+
+.text-input {
+    -fx-background-radius: 5px;
+    -fx-border-color: darkslategray;
+    -fx-border-radius: 5px;
+}
+
+.button, .menu-button, .check-box .box {
+    -fx-background-radius: 5px;
+    -fx-background-color: burlywood;
+    -fx-border-color: darkslategray;
+    -fx-border-radius: 5px;
+}
+.button:hover, .menu-button:hover {
+    -fx-background-color: bisque;
+}
+.button:pressed, .menu-button:pressed {
+    -fx-effect: innershadow(gaussian, black, 7, 0.1, 0, 0);
+}
+
+.section-header {
+    -fx-alignment: center;
+    -fx-font-family: helvetica;
+    -fx-font-size: 125%;
+    -fx-font-weight: bold;
+}
+
+.hp_bar {
+    -fx-accent: green;
+    -fx-control-inner-background: black;
+}
+.hp_label {
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-font: normal bold 100% sans-serif;
+    -fx-effect: dropshadow(gaussian, black, 5, 0.1, .5, .5);
+}
+
+.table-view, .list-view, .text-field {
+    -fx-background-color: floralwhite;
+}
+.table-view .column-header {
+    -fx-background-color: burlywood;
+    -fx-border-color: darkslategray;
+    -fx-border-style: solid centered;
+}
+.table-row-cell:odd, .list-cell:odd, .menu-item {
+    -fx-background-color: floralwhite;
+}
+.table-row-cell:even, .list-cell:even {
+    -fx-background-color: antiquewhite;
+}
+.table-row-cell .text, .list-cell .text {
+    -fx-fill: black;
+}
+
+.menu-item:focused, .table-row-cell:selected, .list-cell:selected{
+    -fx-background-color: tan;
+    -fx-table-cell-border-color: transparent;
+}
+.menu-item:focused .label{
+    -fx-text-fill: black;
+}

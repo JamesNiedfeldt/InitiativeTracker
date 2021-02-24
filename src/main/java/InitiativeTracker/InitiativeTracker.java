@@ -15,6 +15,7 @@ public class InitiativeTracker extends Application {
         
         Scene scene = new Scene(root);
         
+        scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Initiative Tracker");
         stage.show();

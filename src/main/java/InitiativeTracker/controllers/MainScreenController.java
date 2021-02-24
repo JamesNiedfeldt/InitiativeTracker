@@ -31,9 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import InitiativeTracker.classes.Combatant;
 import InitiativeTracker.services.FighterManager;
 import InitiativeTracker.services.FileManager;
-import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.text.TextAlignment;
 
 public class MainScreenController implements Initializable {
     
@@ -88,13 +86,18 @@ public class MainScreenController implements Initializable {
         try {
             editPlayerRoot = editPlayerLoader.load();
             editPlayerScene = new Scene(editPlayerRoot);
+            editPlayerScene.getStylesheets().add(getClass()
+                    .getResource("/css/styles.css").toExternalForm());
+            
             bulkAddRoot = bulkAddLoader.load();
             bulkAddScene = new Scene(bulkAddRoot);
+            bulkAddScene.getStylesheets().add(getClass()
+                    .getResource("/css/styles.css").toExternalForm());
         } catch(IOException e) {
             //TODO
         }
         
-        disableButtons(true);
+        clearState();
         
         setupTop();
         setupLeft();
@@ -114,6 +117,10 @@ public class MainScreenController implements Initializable {
             public void handle(ActionEvent e) {
                 clearMessage();
                 FileManager.getInstance().promptLoad();
+                
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
+                    createUsableState();
+                }
             }
         });
     }
@@ -135,10 +142,9 @@ public class MainScreenController implements Initializable {
             
             if (selectedPlayer != null) {
                 label_playername.setText(selectedPlayer.getName());
-                label_hpvalue.setText(String.valueOf(selectedPlayer.getTotalHp()
-                    + " / " + String.valueOf(selectedPlayer.getMaxHp())));
-                bar_hp.setProgress((double) 
-                    selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
+                
+                displayHp();
+                
                 label_acvalue.setText(String.valueOf(selectedPlayer.getArmorClass()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
@@ -146,13 +152,17 @@ public class MainScreenController implements Initializable {
                 
                 disableButtons(false);
             } else {
-                label_playername.setText("No player selected");
-                label_hpvalue.setText("");
-                label_acvalue.setText("");
-                listProperty.set(null);
-                listview_conditions.itemsProperty().bind(listProperty);
+                if (FighterManager.getInstance().getPlayerCount() <= 0) {
+                    clearState();
+                } else {
+                    label_playername.setText("No player selected");
+                    label_hpvalue.setText("");
+                    label_acvalue.setText("");
+                    listProperty.set(null);
+                    listview_conditions.itemsProperty().bind(listProperty);
                 
                 disableButtons(true);
+                }
             }
         });
         
@@ -181,8 +191,6 @@ public class MainScreenController implements Initializable {
                 }
             }
         });
-        
-        tableview_players.getSelectionModel().select(0);
     }
     
     private void setupRight() {     
@@ -192,15 +200,11 @@ public class MainScreenController implements Initializable {
         }
         button_addcond.getItems().addAll(condMenu);
         
-        label_hpvalue.setAlignment(Pos.CENTER);
-        bar_hp.setStyle("-fx-accent: GREEN;"
-                + "-fx-control-inner-background: BLACK;");
-        
         button_gethit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 clearMessage();
                 
-                textfield_changehp.setStyle("-fx-border-color: NULL;");
+                textfield_changehp.setStyle("");
                 try {
                     int damage = Integer.parseInt(textfield_changehp.getText());
                     
@@ -209,16 +213,11 @@ public class MainScreenController implements Initializable {
                     }
 
                     selectedPlayer.takeDamage(damage);
-
-                    label_hpvalue
-                            .setText(String.valueOf(selectedPlayer.getTotalHp()
-                             + " / " + String.valueOf(selectedPlayer.getMaxHp())));
-                    bar_hp.setProgress((double) 
-                            selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
+                    displayHp();
                     tableview_players.refresh();
                 } catch(NumberFormatException x) {
                     label_message.setText("Improper damage value.");
-                    textfield_changehp.setStyle("-fx-border-color: RED;");
+                    textfield_changehp.setStyle("-fx-border-color: red;");
                 }
             }
         });
@@ -227,7 +226,7 @@ public class MainScreenController implements Initializable {
             public void handle(ActionEvent e) {
                 clearMessage();
                 
-                textfield_changehp.setStyle("-fx-border-color: NULL;");
+                textfield_changehp.setStyle("");
                 try {
                     int damage = Integer.parseInt(textfield_changehp.getText());
 
@@ -236,16 +235,11 @@ public class MainScreenController implements Initializable {
                     }
                     
                     selectedPlayer.heal(damage);
-
-                    label_hpvalue
-                            .setText(String.valueOf(selectedPlayer.getTotalHp()
-                             + " / " + String.valueOf(selectedPlayer.getMaxHp())));
-                    bar_hp.setProgress((double) 
-                            selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
+                    displayHp();
                     tableview_players.refresh();
                 } catch(NumberFormatException x) {
                     label_message.setText("Improper damage value.");
-                    textfield_changehp.setStyle("-fx-border-color: RED;");
+                    textfield_changehp.setStyle("-fx-border-color: red;");
                 }
             }
         });
@@ -312,9 +306,7 @@ public class MainScreenController implements Initializable {
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK) {
                         FighterManager.getInstance().killPlayers(selectedPlayer);
-                        if (FighterManager.getInstance().getPlayerCount() <= 0) {
-                            tableview_players.getSelectionModel().clearSelection();
-                        } else {
+                        if (FighterManager.getInstance().getPlayerCount() > 0) {
                             tableview_players.getSelectionModel().select(0);
                         }
                     }
@@ -338,18 +330,26 @@ public class MainScreenController implements Initializable {
                 editPlayerController.initNewPlayer();
                 editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
+                
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
+                    createUsableState();
+                }
             }
         });
                
         button_addenemies.setOnAction(new EventHandler<ActionEvent>() {
-           public void handle(ActionEvent e) {
-               clearMessage();
+            public void handle(ActionEvent e) {
+                clearMessage();
                
-               bulkPlayerAddController = bulkAddLoader.getController();
-               bulkPlayerAddController.clear();
-               bulkPlayerAddController.setScene(bulkAddScene);
-               bulkPlayerAddController.showAndWait();
-           } 
+                bulkPlayerAddController = bulkAddLoader.getController();
+                bulkPlayerAddController.clear();
+                bulkPlayerAddController.setScene(bulkAddScene);
+                bulkPlayerAddController.showAndWait();
+               
+                if (FighterManager.getInstance().getPlayerCount() > 0) {
+                    createUsableState();
+                }
+            } 
         });
         
         button_deleteall.setOnAction(new EventHandler<ActionEvent>() {
@@ -374,6 +374,19 @@ public class MainScreenController implements Initializable {
         label_message.setText("");
     }
     
+    private void displayHp() {
+        label_hpvalue.setText(String.valueOf(selectedPlayer.getTotalHp()
+            + " / " + String.valueOf(selectedPlayer.getMaxHp())));
+        
+        bar_hp.setProgress((double) 
+                selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
+        if (selectedPlayer.getTempHp() > 0) {
+            bar_hp.setStyle("-fx-accent: cornflowerblue");
+        } else {
+            bar_hp.setStyle("-fx-accent: green");
+        }
+    }
+    
     private void disableButtons(boolean bool) {
         button_addcond.setDisable(bool);
         button_removecond.setDisable(bool);
@@ -386,11 +399,30 @@ public class MainScreenController implements Initializable {
         textfield_changehp.setDisable(bool);
         checkbox_save.setDisable(bool);
         
+        button_deleteall.setDisable(bool);
+        button_save.setDisable(bool);
+        
+        button_sortplayers.setDisable(bool);
+        button_nextturn.setDisable(bool);
+        
         if (bool) {
             textfield_changehp.clear();
             bar_hp.setProgress(0);
             checkbox_save.setSelected(false);
         }
+    }
+    
+    private void createUsableState() {
+        disableButtons(false);
+        tableview_players.getSelectionModel().select(0);
+    }
+    
+    private void clearState() {
+        disableButtons(true);
+        label_playername.setText("No players in encounter");
+        label_hpvalue.setText("");
+        label_acvalue.setText("");
+        listProperty.set(null);
     }
     
     private enum Condition {

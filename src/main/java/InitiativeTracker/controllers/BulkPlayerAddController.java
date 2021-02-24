@@ -41,12 +41,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         button_finish.setOnAction(new EventHandler<ActionEvent>(){
            public void handle(ActionEvent e){
                try {
-                   textfield_name.setStyle("-fx-border-color: NULL;");
-                   textfield_hprolls.setStyle("-fx-border-color: NULL;");
-                   textfield_hpbase.setStyle("-fx-border-color: NULL;");
-                   textfield_dex.setStyle("-fx-border-color: NULL;");
-                   textfield_ac.setStyle("-fx-border-color: NULL;");
-                   textfield_monsternum.setStyle("-fx-border-color: NULL;");
+                   clearFieldStyles();
                    checkFields();
                    finish();
                } catch (Exception x){
@@ -63,12 +58,7 @@ public class BulkPlayerAddController extends Stage implements Initializable {
     }    
     
     public void clear() {
-        textfield_name.setStyle("-fx-border-color: NULL;");
-        textfield_hprolls.setStyle("-fx-border-color: NULL;");
-        textfield_hpbase.setStyle("-fx-border-color: NULL;");
-        textfield_dex.setStyle("-fx-border-color: NULL;");
-        textfield_ac.setStyle("-fx-border-color: NULL;");
-        textfield_monsternum.setStyle("-fx-border-color: NULL;");
+        clearFieldStyles();
         textfield_name.clear();
         textfield_hprolls.clear();
         textfield_hpbase.clear();
@@ -138,24 +128,33 @@ public class BulkPlayerAddController extends Stage implements Initializable {
         exit();
     }
     
+    private void clearFieldStyles() {
+        textfield_name.setStyle("");
+        textfield_hprolls.setStyle("");
+        textfield_hpbase.setStyle("");
+        textfield_dex.setStyle("");
+        textfield_ac.setStyle("");
+        textfield_monsternum.setStyle("");
+    }
+    
     private void checkFields() {
         boolean foundExc = false;
         
         try{
             if (textfield_name.getText().isEmpty()) {
-                textfield_name.setStyle("-fx-border-color: RED;");
+                textfield_name.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_ac.getText().isEmpty()) {
-                textfield_ac.setStyle("-fx-border-color: RED;");
+                textfield_ac.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_hprolls.getText().isEmpty()) {
-                textfield_hprolls.setStyle("-fx-border-color: RED;");
+                textfield_hprolls.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_dex.getText().isEmpty()) {
-                textfield_dex.setStyle("-fx-border-color: RED;");
+                textfield_dex.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (textfield_monsternum.getText().isEmpty()) {
@@ -166,48 +165,48 @@ public class BulkPlayerAddController extends Stage implements Initializable {
             try {
                 Integer.parseInt(textfield_hprolls.getText());
             } catch(NumberFormatException x) {
-                textfield_hprolls.setStyle("-fx-border-color: RED;");
+                textfield_hprolls.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (!textfield_hpbase.getText().isEmpty()){
                 try {
                     Integer.parseInt(textfield_hpbase.getText());
                 } catch(NumberFormatException x) {
-                    textfield_hpbase.setStyle("-fx-border-color: RED;");
+                    textfield_hpbase.setStyle("-fx-border-color: red;");
                 }
             }
             
             try {
                 Integer.parseInt(textfield_ac.getText());
             } catch(NumberFormatException x) {
-                textfield_ac.setStyle("-fx-border-color: RED;");
+                textfield_ac.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             
             try {
                 Integer.parseInt(textfield_dex.getText());
             } catch(NumberFormatException x) {
-                textfield_dex.setStyle("-fx-border-color: RED;");
+                textfield_dex.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             try {
                 Integer.parseInt(textfield_monsternum.getText());
             } catch(NumberFormatException x) {
-                textfield_monsternum.setStyle("-fx-border-color: RED;");
+                textfield_monsternum.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             
             if (Integer.parseInt(textfield_hprolls.getText()) <= 0){
-                textfield_hprolls.setStyle("-fx-border-color: RED;");
+                textfield_hprolls.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (!textfield_hpbase.getText().isEmpty() && 
                     Integer.parseInt(textfield_hpbase.getText()) < 0){
-                textfield_hpbase.setStyle("-fx-border-color: RED;");
+                textfield_hpbase.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             if (Integer.parseInt(textfield_monsternum.getText()) <= 0){
-                textfield_monsternum.setStyle("-fx-border-color: RED;");
+                textfield_monsternum.setStyle("-fx-border-color: red;");
                 foundExc = true;
             }
             
