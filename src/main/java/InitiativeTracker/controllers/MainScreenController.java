@@ -293,11 +293,14 @@ public class MainScreenController implements Initializable {
         button_editplayer.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 clearMessage();
+                int selection = tableview_players.getSelectionModel().getSelectedIndex();
                 
                 editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initEditPlayer(selectedPlayer);
                 editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
+                
+                tableview_players.getSelectionModel().select(selection);
             }
         });
         
@@ -338,14 +341,18 @@ public class MainScreenController implements Initializable {
         button_addplayers.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 clearMessage();
+                int selection = tableview_players.getSelectionModel().getSelectedIndex();
                 
                 editPlayerController = editPlayerLoader.getController();
                 editPlayerController.initNewPlayer();
                 editPlayerController.setScene(editPlayerScene);
                 editPlayerController.showAndWait();
                 
-                if (FighterManager.getInstance().getPlayerCount() > 0) {
+                if (FighterManager.getInstance().getPlayerCount() > 0 
+                        && selection < 0) {
                     createUsableState();
+                } else {
+                    tableview_players.getSelectionModel().select(selection);
                 }
             }
         });
@@ -353,14 +360,18 @@ public class MainScreenController implements Initializable {
         button_addenemies.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 clearMessage();
+                int selection = tableview_players.getSelectionModel().getSelectedIndex();
                
                 bulkPlayerAddController = bulkAddLoader.getController();
                 bulkPlayerAddController.clear();
                 bulkPlayerAddController.setScene(bulkAddScene);
                 bulkPlayerAddController.showAndWait();
                
-                if (FighterManager.getInstance().getPlayerCount() > 0) {
+                if (FighterManager.getInstance().getPlayerCount() > 0
+                        && selection < 0) {
                     createUsableState();
+                } else {
+                    tableview_players.getSelectionModel().select(selection);
                 }
             } 
         });
