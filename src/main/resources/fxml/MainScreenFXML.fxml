@@ -53,8 +53,7 @@
             <Button fx:id="button_editplayer" layoutX="58.0" layoutY="355.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Player..." />
             <Button fx:id="button_removeplayer" layoutX="198.0" layoutY="355.0" mnemonicParsing="false" prefWidth="105.0" text="Delete Player" />
             <CheckBox fx:id="checkbox_save" layoutX="58.0" layoutY="259.0" mnemonicParsing="false" text="Do not delete" />
-            <Label fx:id="label_acvalue" layoutX="254.0" layoutY="55.0" prefWidth="40.0" />
-            <Label fx:id="label_actitle" layoutX="224.0" layoutY="55.0" prefHeight="20.0" text="AC:" />
+            <Label fx:id="label_acvalue" layoutX="224.0" layoutY="55.0" prefHeight="20.0" styleClass="ac_label" text="AC: --" />
             <Label fx:id="label_message" alignment="CENTER" layoutX="18.0" layoutY="330.0" prefHeight="20.0" prefWidth="330.0" textFill="RED" />
          </children>
       </AnchorPane>

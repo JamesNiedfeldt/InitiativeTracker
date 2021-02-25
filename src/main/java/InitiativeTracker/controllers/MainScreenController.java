@@ -147,7 +147,8 @@ public class MainScreenController implements Initializable {
                 
                 displayHp();
                 
-                label_acvalue.setText(String.valueOf(selectedPlayer.getArmorClass()));
+                label_acvalue.setText("AC: " 
+                        + String.valueOf(selectedPlayer.getArmorClass()));
                 listProperty.set(selectedPlayer.getConditions());
                 listview_conditions.itemsProperty().bind(listProperty);
                 checkbox_save.setSelected(selectedPlayer.isSaved());
@@ -159,7 +160,7 @@ public class MainScreenController implements Initializable {
                 } else {
                     label_playername.setText("No player selected");
                     label_hpvalue.setText("");
-                    label_acvalue.setText("");
+                    label_acvalue.setText("AC: --");
                     listProperty.set(null);
                     listview_conditions.itemsProperty().bind(listProperty);
                 
@@ -173,11 +174,17 @@ public class MainScreenController implements Initializable {
                 clearMessage();
                 
                 if (FighterManager.getInstance().getPlayerCount() > 0) {
-                   textfield_changehp.clear();
-                   bar_hp.setProgress(0);
-                   FighterManager.getInstance().nextTurn();
-                   tableview_players.refresh();
-                   tableview_players.getSelectionModel().select(0);
+                    int currentSelection = tableview_players.getSelectionModel().getSelectedIndex();
+                    
+                    FighterManager.getInstance().nextTurn(); 
+                    tableview_players.refresh();
+                    
+                    //If the top player in list was selected, persist selection 
+                    //when that player loops to the bottom of the list
+                    if (currentSelection <= 0) {
+                        tableview_players.getSelectionModel()
+                                .select(FighterManager.getInstance().getPlayerCount() - 1);
+                    }
                 } 
             }
         });
@@ -429,7 +436,7 @@ public class MainScreenController implements Initializable {
         disableButtons(true);
         label_playername.setText("");
         label_hpvalue.setText("");
-        label_acvalue.setText("");
+        label_acvalue.setText("AC: --");
         listProperty.set(null);
     }
     
