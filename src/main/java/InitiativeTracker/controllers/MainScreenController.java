@@ -406,8 +406,12 @@ public class MainScreenController implements Initializable {
         
         bar_hp.setProgress((double) 
                 selectedPlayer.getTotalHp() / selectedPlayer.getMaxHp());
+        
         if (selectedPlayer.getTempHp() > 0) {
             bar_hp.setStyle("-fx-accent: cornflowerblue");
+        } else if (selectedPlayer.getTotalHp() <= 0) {
+            bar_hp.setStyle("-fx-accent: red");
+            bar_hp.setProgress(-1);
         } else {
             bar_hp.setStyle("");
         }

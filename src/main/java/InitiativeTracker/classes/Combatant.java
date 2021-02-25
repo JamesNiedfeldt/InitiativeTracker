@@ -109,11 +109,12 @@ public class Combatant implements Comparable{
             }
         } else {
           currentHp += modifier;
-            if (currentHp > maxHp) {
-                currentHp = maxHp;
-            } else if (currentHp < 0) {
-                currentHp = 0;
-            }
+        }
+        
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
+        } else if (currentHp < 0) {
+            currentHp = 0;
         }
     }
     
